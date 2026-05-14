@@ -26,6 +26,12 @@ out/
 .pnpm-debug.log*
 .yarn/
 
+# Vercel
+.vercel/
+
+# Supabase CLI
+supabase/.temp/
+
 # Env / secrets
 .env
 .env.local
