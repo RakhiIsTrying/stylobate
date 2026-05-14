@@ -1,0 +1,32 @@
+name: backend-ci
+on:
+  push:
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-ci.yml"
+  pull_request:
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-ci.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+      - run: uv sync --frozen
+      - run: uv run ruff check .
+      - run: uv run mypy app
+      - run: uv run pytest -q
+        env:
+          SUPABASE_URL: https://test.supabase.co
+          SUPABASE_ANON_KEY: anon-key-test
+          SUPABASE_SERVICE_ROLE_KEY: service-role-test
+          SUPABASE_JWT_SECRET: test-secret-for-unit-tests-only
+          ANTHROPIC_API_KEY: sk-ant-test
