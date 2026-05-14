@@ -7,9 +7,9 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
-from app.core.auth import get_current_user
+from app.core.auth import get_current_token, get_current_user
 from app.core.logging import get_logger
-from app.core.supabase_client import get_service_client
+from app.core.supabase_client import get_user_client
 from app.db.messages import get_or_create_chat, insert_message
 
 router = APIRouter(prefix="/chat", tags=["chat"])
@@ -30,13 +30,10 @@ def _sse(event: str, data: dict[str, Any] | str) -> bytes:
 async def chat_stream(
     req: ChatStreamRequest,
     user: dict[str, Any] = Depends(get_current_user),
+    token: str = Depends(get_current_token),
 ) -> StreamingResponse:
     user_id = user["sub"]
-
-    # Phase 0 uses the service-role client for inserts since we're not yet
-    # enforcing per-request user-JWT scoping on Postgrest. Phase 1+ will swap
-    # to get_user_client(jwt) so RLS double-checks every write.
-    sb = get_service_client()
+    sb = get_user_client(token)
 
     async def event_stream() -> AsyncGenerator[bytes, None]:
         chat = await get_or_create_chat(sb, user_id=user_id, chat_id=req.chat_id)
