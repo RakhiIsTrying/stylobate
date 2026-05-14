@@ -36,16 +36,18 @@ async def call_with_cache(
     """Call Anthropic Messages with the supplied system blocks marked for caching.
 
     `system_blocks` should be in the order [persona, tool_defs_summary, guidelines].
-    Each block becomes `{"type": "text", "text": ..., "cache_control": ephemeral}`.
+    Each element of `system_blocks` must have a `"text"` key. Blocks are
+    emitted in order with `cache_control: ephemeral` so the Anthropic API
+    caches them with a 5-minute TTL.
     """
-    sys = [
+    sys_blocks = [
         {"type": "text", "text": b["text"], "cache_control": {"type": "ephemeral"}}
         for b in system_blocks
     ]
     kwargs: dict[str, Any] = {
         "model": model,
         "max_tokens": max_tokens,
-        "system": sys,
+        "system": sys_blocks,
         "messages": messages,
         "temperature": temperature,
     }
