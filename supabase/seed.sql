@@ -1,0 +1,2 @@
+-- supabase/seed.sql
+-- Seed data placeholder. Populated in later phases.
