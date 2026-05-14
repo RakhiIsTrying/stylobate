@@ -1,13 +1,25 @@
+# backend/tests/conftest.py
 from collections.abc import AsyncGenerator
 
 import pytest
 from httpx import ASGITransport, AsyncClient
 
-from app.main import create_app
+
+@pytest.fixture(autouse=True)
+def _env_defaults(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("SUPABASE_URL", "https://test.supabase.co")
+    monkeypatch.setenv("SUPABASE_ANON_KEY", "anon-key-test")
+    monkeypatch.setenv("SUPABASE_SERVICE_ROLE_KEY", "service-role-test")
+    monkeypatch.setenv("SUPABASE_JWT_SECRET", "test-secret-for-unit-tests-only")
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-test")
+    # Bust the lru_cache so each test re-reads env
+    from app.config import get_settings
+    get_settings.cache_clear()
 
 
 @pytest.fixture
 async def client() -> AsyncGenerator[AsyncClient, None]:
+    from app.main import create_app
     app = create_app()
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
         yield ac
