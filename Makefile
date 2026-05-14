@@ -1,4 +1,4 @@
-.PHONY: help install backend frontend test lint check fmt db-reset
+.PHONY: help install backend frontend test lint check fmt
 
 help:
 	@echo "Stylobate dev targets:"

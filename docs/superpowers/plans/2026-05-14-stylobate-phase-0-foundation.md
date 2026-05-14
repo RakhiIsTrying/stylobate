@@ -140,7 +140,7 @@ Write this verbatim to `.env.example` at the repo root.
 - [ ] **Step 2: Create `Makefile`**
 
 ```makefile
-.PHONY: help install backend frontend test lint check fmt db-reset
+.PHONY: help install backend frontend test lint check fmt
 
 help:
 	@echo "Stylobate dev targets:"
