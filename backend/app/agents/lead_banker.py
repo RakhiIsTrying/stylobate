@@ -8,6 +8,8 @@ from typing import Any, cast
 from anthropic import AsyncAnthropic
 
 from app.agents.fundamental import run_fundamental_analysis
+from app.agents.macro import run_macro_analysis
+from app.agents.news_sentiment import run_news_analysis
 from app.agents.technical import run_technical_analysis
 from app.agents.ticker_resolver import TickerResolution
 from app.core.anthropic_client import get_client
@@ -24,15 +26,19 @@ _DISPATCH_TOOL: dict[str, Any] = {
     "name": "dispatch_specialists",
     "description": (
         "Run one or more specialist agents in parallel and receive their findings. "
-        "Specialists available in Phase 2A: 'fundamental', 'technical'. "
-        "Returns combined findings JSON as the tool result."
+        "Specialists available: 'fundamental' (financials/valuation), 'technical' "
+        "(price action/indicators), 'news' (recent headlines + sentiment), 'macro' "
+        "(rates/sectors/regime). Returns combined findings JSON as the tool result."
     ),
     "input_schema": {
         "type": "object",
         "properties": {
             "specialists": {
                 "type": "array",
-                "items": {"type": "string", "enum": ["fundamental", "technical"]},
+                "items": {
+                    "type": "string",
+                    "enum": ["fundamental", "technical", "news", "macro"],
+                },
                 "minItems": 1,
             },
             "brief": {"type": "string", "description": "One-line context for the specialists"},
@@ -140,7 +146,7 @@ def _build_user_message(user_text: str, resolution: TickerResolution) -> str:
     return (
         f"User question: {user_text}\n\n"
         f"Resolved ticker: {resolution.ticker} ({resolution.name}, {resolution.market})\n\n"
-        "Specialists available: fundamental, technical.\n\n"
+        "Specialists available: fundamental, technical, news, macro.\n\n"
         "Call dispatch_specialists first with the specialists you want, then use the emit_* tools "
         "to stream the response. Emit order: quick_take → stock_card → sections → recommendation "
         "→ disclaimer → done."
@@ -154,6 +160,10 @@ async def _run_dispatch(specialists: list[str], brief: str, ticker: str) -> dict
         name_to_coro["fundamental"] = run_fundamental_analysis(ticker=ticker, brief=brief)
     if "technical" in specialists:
         name_to_coro["technical"] = run_technical_analysis(ticker=ticker, brief=brief)
+    if "news" in specialists:
+        name_to_coro["news"] = run_news_analysis(ticker=ticker, brief=brief)
+    if "macro" in specialists:
+        name_to_coro["macro"] = run_macro_analysis(ticker=ticker, brief=brief)
 
     if not name_to_coro:
         return {"errors": {"none": "no recognized specialists requested"}}
