@@ -117,8 +117,9 @@ export function AddPositionModal({
             </div>
 
             <div>
-              <label className="block text-sm">Quantity</label>
+              <label htmlFor="add-position-quantity" className="block text-sm">Quantity</label>
               <input
+                id="add-position-quantity"
                 type="number"
                 step="any"
                 min="0"
@@ -128,10 +129,11 @@ export function AddPositionModal({
               />
             </div>
             <div>
-              <label className="block text-sm">
+              <label htmlFor="add-position-cost-basis" className="block text-sm">
                 Cost basis (per unit, {currency})
               </label>
               <input
+                id="add-position-cost-basis"
                 type="number"
                 step="any"
                 min="0"
@@ -152,8 +154,9 @@ export function AddPositionModal({
               />
             </details>
             <div>
-              <label className="block text-sm">Opened on</label>
+              <label htmlFor="add-position-opened-at" className="block text-sm">Opened on</label>
               <input
+                id="add-position-opened-at"
                 type="date"
                 value={openedAt}
                 onChange={(e) => setOpenedAt(e.target.value)}

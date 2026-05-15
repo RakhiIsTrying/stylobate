@@ -26,7 +26,7 @@ test.describe("Portfolio", () => {
 
     // AAPL row appears within the USD (Equities & ETFs) cohort
     await expect(
-      page.getByText(/USD \(Equities & ETFs\)/),
+      page.getByText(/USD \(Equities & ETFs\)/).first(),
     ).toBeVisible({ timeout: 8000 });
     await expect(page.getByText("AAPL")).toBeVisible();
 
@@ -65,12 +65,18 @@ test.describe("Portfolio", () => {
 
   test("watchlist: add NVDA, see price, delete", async ({ page }) => {
     await page.getByRole("button", { name: "Watchlist" }).click();
+    // Let the watchlist fetch settle before deciding whether to create one
+    await page.waitForLoadState("networkidle");
 
-    const newWatchlistBtn = page.getByRole("button", { name: /^\+ New$/ }).first();
-    if (await newWatchlistBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
-      await newWatchlistBtn.click();
-      await page.getByPlaceholder("Watchlist name").fill("Playwright Watchlist");
-      await page.getByRole("button", { name: "Create" }).click();
+    // Only create a watchlist if we're in the empty state (avoids race where
+    // an existing watchlist re-mounts the selector mid-click).
+    const emptyState = page.getByText(/No watchlists yet/);
+    if (await emptyState.isVisible({ timeout: 2000 }).catch(() => false)) {
+      await page.getByRole("button", { name: /^\+ New$/ }).first().click();
+      const nameInput = page.getByPlaceholder("Watchlist name");
+      await nameInput.fill("Playwright Watchlist");
+      await page.getByRole("button", { name: "Create", exact: true }).click();
+      await expect(emptyState).toBeHidden({ timeout: 5000 });
     }
 
     await page.getByRole("button", { name: "+ Add ticker" }).click();
