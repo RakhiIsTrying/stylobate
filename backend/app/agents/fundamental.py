@@ -89,8 +89,27 @@ async def run_fundamental_analysis(
     *,
     ticker: str,
     brief: str,
+    market: str = "US",
     client: AsyncAnthropic | Any | None = None,
 ) -> FundamentalFindings:
+    if market == "CRYPTO":
+        return FundamentalFindings(
+            ticker=ticker,
+            thesis=(
+                "Crypto assets do not have traditional financial statements. "
+                "Refer to the Technical, News, and Macro sections for context."
+            ),
+            fundamentals_summary=[
+                "Not applicable: no income statement / balance sheet for tokens.",
+            ],
+            risks=[
+                "Crypto-specific risks (custody, regulatory, exchange counterparty, "
+                "liquidity at sale) are evaluated in the Risks section.",
+            ],
+            citations=[],
+            confidence=0.0,
+        )
+
     c = client or get_client()
     sys_prompt = _load_prompt()
     messages: list[dict[str, Any]] = [

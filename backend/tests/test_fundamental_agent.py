@@ -129,3 +129,25 @@ async def test_fundamental_agent_raises_if_no_submit_findings() -> None:
     from app.agents.fundamental import FundamentalError, run_fundamental_analysis
     with pytest.raises(FundamentalError):
         await run_fundamental_analysis(ticker="AAPL", brief="hi", client=fake_client)
+
+
+@pytest.mark.asyncio
+async def test_fundamental_agent_short_circuits_for_crypto() -> None:
+    """For market=CRYPTO, no LLM call happens — agent returns a graceful empty finding."""
+    fake_client = MagicMock()
+    fake_client.messages.create = AsyncMock(
+        side_effect=AssertionError("no LLM call should happen for crypto fundamentals"),
+    )
+    from app.agents.fundamental import run_fundamental_analysis
+    findings = await run_fundamental_analysis(
+        ticker="BTC", brief="deep dive on BTC", market="CRYPTO", client=fake_client,
+    )
+    assert findings.ticker == "BTC"
+    assert findings.confidence == 0.0
+    # Some short transparent message indicating no financial statements
+    assert any(
+        "no traditional" in s.lower() or "not applicable" in s.lower() or "n/a" in s.lower()
+        for s in [*findings.fundamentals_summary, findings.thesis]
+    )
+    # Verify the LLM was never called
+    fake_client.messages.create.assert_not_called()
