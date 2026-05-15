@@ -90,6 +90,7 @@ async def run_macro_analysis(
     *,
     ticker: str,
     brief: str,
+    market: str = "US",
     client: AsyncAnthropic | Any | None = None,
 ) -> MacroFindings:
     c = client or get_client()
@@ -99,8 +100,10 @@ async def run_macro_analysis(
         {
             "role": "user",
             "content": (
-                f"User question relates to ticker: {ticker}\nBrief: {brief}\n"
-                "Use the macro tools and submit_macro_findings when ready."
+                f"User question relates to ticker: {ticker} (market: {market})\n"
+                f"Brief: {brief}\n"
+                "Use the macro tools (pass market=... to get_rates) and "
+                "submit_macro_findings when ready."
             ),
         }
     ]

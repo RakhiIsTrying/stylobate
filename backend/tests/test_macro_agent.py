@@ -93,3 +93,51 @@ async def test_macro_agent_raises_if_no_submit() -> None:
     from app.agents.macro import MacroError, run_macro_analysis
     with pytest.raises(MacroError):
         await run_macro_analysis(ticker="AAPL", brief="x", client=fake_client)
+
+
+@pytest.mark.asyncio
+async def test_macro_agent_passes_market_to_get_rates() -> None:
+    """When run_macro_analysis is called with market=IN, the user message
+    surfaces market=IN so the model can include it in the get_rates call."""
+    from app.tools.macro import (
+        RatesResult,
+        get_rates_tool,
+        get_sector_perf_tool,
+    )
+
+    fake_rates = RatesResult(
+        market="IN", policy_rate=6.50, long_yield=7.10, inflation=4.80,
+    )
+
+    fake_client = MagicMock()
+    fake_client.messages.create = AsyncMock(side_effect=[
+        _message(_tool_use_block("get_rates", {"market": "IN"}, "r1")),
+        _message(
+            _tool_use_block("submit_macro_findings", {
+                "regime": "neutral",
+                "rates_snapshot": {"policy_rate": 6.50, "long_yield": 7.10, "inflation": 4.80},
+                "sector_performance": {},
+                "macro_notes": ["Repo at 6.50% — restrictive zone"],
+                "citations": [{"source": "fred", "ref": "FRED:INDIRSTPRLR01STM,IRLTLT01INM156N"}],
+                "confidence": 0.85,
+            }, "r2"),
+            stop_reason="tool_use",
+        ),
+    ])
+
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(get_rates_tool, "impl", AsyncMock(return_value=fake_rates))
+        # sector tool shouldn't be called for IN — make it raise if it is
+        mp.setattr(get_sector_perf_tool, "impl",
+                   AsyncMock(side_effect=AssertionError("sector_perf must not be called for IN")))
+        from app.agents.macro import run_macro_analysis
+        findings = await run_macro_analysis(
+            ticker="RELIANCE.NS", brief="Indian deep dive",
+            market="IN", client=fake_client,
+        )
+    # Verify the user message carried the market context (case-insensitive)
+    first_call = fake_client.messages.create.await_args_list[0]
+    user_message_content = first_call.kwargs["messages"][0]["content"]
+    lowered = user_message_content.lower()
+    assert "market: in" in lowered or "market=in" in lowered
+    assert findings.regime == "neutral"
