@@ -46,7 +46,13 @@ class KeyRatios(BaseModel):
 
 
 def _period_label(ts: Any) -> str:
-    """Turn a pandas Timestamp into a fiscal-year label."""
+    """Turn a pandas Timestamp into a fiscal-year label.
+
+    Uses calendar year. Accurate for calendar-year and most US fiscal-year
+    companies. May mislabel non-calendar fiscal years (e.g., Indian FY
+    ending Mar 31, UK companies ending Apr 5). yfinance does not expose
+    fiscal-year mappings.
+    """
     year = getattr(ts, "year", None)
     if year is None:
         return "unknown"
@@ -129,7 +135,11 @@ async def fetch_key_ratios(ticker: str) -> KeyRatios:
             pb=_float_or_none(info.get("priceToBook")),
             ps_ttm=_float_or_none(info.get("priceToSalesTrailing12Months")),
             roe=_float_or_none(info.get("returnOnEquity")),
-            roic=_float_or_none(info.get("returnOnAssets")),  # approx; ROIC isn't in yfinance
+            # ROIC isn't exposed by yfinance; ROA is the closest proxy.
+            # Downstream consumers should treat KeyRatios.roic as approximate.
+            roic=_float_or_none(info.get("returnOnAssets")),
+            # FCF yield not exposed by yfinance; Phase 2 will compute it
+            # from free_cash_flow / market_cap.
             fcf_yield=None,
             debt_to_equity=_float_or_none(info.get("debtToEquity")),
             current_ratio=_float_or_none(info.get("currentRatio")),
