@@ -45,6 +45,15 @@ class KeyRatios(BaseModel):
     revenue_growth_yoy: float | None
 
 
+class Bar(BaseModel):
+    date: date
+    open: float
+    high: float
+    low: float
+    close: float
+    volume: int
+
+
 def _period_label(ts: Any) -> str:
     """Turn a pandas Timestamp into a fiscal-year label.
 
@@ -146,5 +155,48 @@ async def fetch_key_ratios(ticker: str) -> KeyRatios:
             net_margin=_float_or_none(info.get("profitMargins")),
             revenue_growth_yoy=_float_or_none(info.get("revenueGrowth")),
         )
+
+    return await asyncio.to_thread(_sync)
+
+
+async def fetch_price_history(
+    ticker: str,
+    period: str = "1y",
+    interval: str = "1d",
+) -> list[Bar]:
+    """OHLCV bars for the ticker. period/interval per yfinance convention.
+
+    period: 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max.
+    interval: 1m, 5m, 15m, 30m, 1h, 1d, 1wk, 1mo.
+    """
+
+    def _sync() -> list[Bar]:
+        t = _make_ticker(ticker)
+        df = t.history(period=period, interval=interval)
+        if df is None or df.empty:
+            return []
+        out: list[Bar] = []
+        for idx, row in df.iterrows():
+            d = idx.date() if hasattr(idx, "date") else idx
+            o = _float_or_none(row.get("Open"))
+            h = _float_or_none(row.get("High"))
+            lo = _float_or_none(row.get("Low"))
+            cl = _float_or_none(row.get("Close"))
+            v = row.get("Volume")
+            if any(x is None for x in (o, h, lo, cl)):
+                continue
+            out.append(
+                Bar(
+                    date=d,
+                    open=o or 0.0,
+                    high=h or 0.0,
+                    low=lo or 0.0,
+                    close=cl or 0.0,
+                    volume=int(v)
+                    if v is not None and not (isinstance(v, float) and v != v)
+                    else 0,
+                )
+            )
+        return out
 
     return await asyncio.to_thread(_sync)

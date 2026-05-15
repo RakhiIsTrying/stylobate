@@ -98,3 +98,40 @@ async def test_fetch_returns_none_for_missing_fields() -> None:
         r = await fetch_key_ratios("X")
     assert r.pe_ttm is None
     assert r.net_margin is None
+
+
+@pytest.mark.asyncio
+async def test_fetch_price_history_returns_typed_bars() -> None:
+    history_df = pd.DataFrame(
+        {
+            "Open": [220.0, 222.0, 218.5],
+            "High": [225.0, 224.0, 222.0],
+            "Low": [219.0, 220.0, 217.0],
+            "Close": [224.0, 221.0, 220.5],
+            "Volume": [50_000_000, 48_000_000, 52_000_000],
+        },
+        index=pd.DatetimeIndex(
+            [pd.Timestamp("2026-05-12"), pd.Timestamp("2026-05-13"), pd.Timestamp("2026-05-14")]
+        ),
+    )
+    mock_ticker = MagicMock()
+    mock_ticker.history = MagicMock(return_value=history_df)
+    with patch("app.data.yfinance_adapter._make_ticker", return_value=mock_ticker):
+        from app.data.yfinance_adapter import fetch_price_history
+        bars = await fetch_price_history("AAPL", period="5d", interval="1d")
+    assert len(bars) == 3
+    assert bars[0].date.isoformat() == "2026-05-12"
+    assert bars[0].open == 220.0
+    assert bars[2].close == 220.5
+    assert bars[1].volume == 48_000_000
+    mock_ticker.history.assert_called_once_with(period="5d", interval="1d")
+
+
+@pytest.mark.asyncio
+async def test_fetch_price_history_empty_returns_empty_list() -> None:
+    mock_ticker = MagicMock()
+    mock_ticker.history = MagicMock(return_value=pd.DataFrame())
+    with patch("app.data.yfinance_adapter._make_ticker", return_value=mock_ticker):
+        from app.data.yfinance_adapter import fetch_price_history
+        bars = await fetch_price_history("X")
+    assert bars == []
