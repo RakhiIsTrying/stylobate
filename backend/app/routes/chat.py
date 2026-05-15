@@ -7,8 +7,12 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
+from app.agents.fundamental import run_fundamental_analysis
+from app.agents.lead_banker import run_lead_banker
+from app.agents.ticker_resolver import resolve_ticker
 from app.core.auth import get_current_token, get_current_user
 from app.core.logging import get_logger
+from app.core.output_validator import validate as validate_deltas
 from app.core.supabase_client import get_user_client
 from app.db.messages import get_or_create_chat, insert_message
 
@@ -37,19 +41,46 @@ async def chat_stream(
 
     async def event_stream() -> AsyncGenerator[bytes, None]:
         chat = await get_or_create_chat(sb, user_id=user_id, chat_id=req.chat_id)
-
         user_msg = await insert_message(
             sb, chat_id=chat.id, role="user",
             content={"type": "text", "text": req.content},
         )
-        yield _sse("progress", {"step": "received", "message_id": str(user_msg.id)})
+        yield _sse("progress", {"step": "resolving_ticker", "message_id": str(user_msg.id)})
 
-        echo = f"echo: {req.content}"
-        yield _sse("delta", {"type": "text", "text": echo})
+        resolution = await resolve_ticker(req.content)
+        if resolution.confidence < 0.4 or not resolution.ticker:
+            yield _sse("error", {
+                "message": "I couldn't identify the ticker. Try including the symbol (e.g. AAPL).",
+            })
+            yield _sse("done", {"message_id": None, "chat_id": str(chat.id)})
+            return
+
+        yield _sse("progress", {"step": "running_fundamentals", "ticker": resolution.ticker})
+        findings = await run_fundamental_analysis(
+            ticker=resolution.ticker,
+            brief=f"User asked: {req.content}",
+        )
+
+        yield _sse("progress", {"step": "synthesizing"})
+
+        deltas: list[dict[str, Any]] = []
+        async for d in run_lead_banker(
+            user_message=req.content,
+            resolution=resolution,
+            fundamental_findings=findings,
+        ):
+            deltas.append(d)
+            if d.get("type") == "done":
+                continue
+            yield _sse("delta", d)
+
+        v = validate_deltas(deltas)
+        if not v.ok:
+            log.warning("output_validator_failed", issues=v.issues)
+            yield _sse("error", {"message": "Output failed validation: " + "; ".join(v.issues[:3])})
 
         asst_msg = await insert_message(
-            sb, chat_id=chat.id, role="assistant",
-            content=[{"type": "text", "text": echo}],
+            sb, chat_id=chat.id, role="assistant", content=deltas,
         )
         yield _sse("done", {"message_id": str(asst_msg.id), "chat_id": str(chat.id)})
 
