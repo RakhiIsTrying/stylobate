@@ -271,3 +271,93 @@ async def test_lead_banker_dispatches_all_four_specialists() -> None:
     assert section_titles == ["Thesis", "Fundamentals", "Technicals", "News", "Macro", "Risks"]
     types = [d["type"] for d in deltas]
     assert types[-1] == "done"
+
+
+@pytest.mark.asyncio
+async def test_lead_banker_passes_market_to_specialists() -> None:
+    """For an Indian ticker, market=IN must be passed to each specialist runner."""
+    from app.agents.fundamental import Citation, FundamentalFindings
+    from app.agents.macro import MacroFindings
+    from app.agents.news_sentiment import NewsFindings
+    from app.agents.technical import TechnicalFinding
+    from app.agents.ticker_resolver import TickerResolution
+
+    resolution = TickerResolution(
+        ticker="RELIANCE.NS", name="Reliance Industries", market="IN",
+        asset_class="equity", confidence=0.95,
+    )
+
+    captured_markets: dict[str, str] = {}
+
+    async def fake_fundamental(
+        *, ticker: str, brief: str, market: str = "US",
+    ) -> FundamentalFindings:
+        captured_markets["fundamental"] = market
+        return FundamentalFindings(
+            ticker=ticker, thesis="ok", fundamentals_summary=[], risks=[],
+            citations=[Citation(source="yfinance", ref="x")], confidence=0.8,
+        )
+
+    async def fake_technical(
+        *, ticker: str, brief: str, market: str = "US",
+    ) -> TechnicalFinding:
+        captured_markets["technical"] = market
+        return TechnicalFinding(
+            ticker=ticker, trend="sideways", confidence=0.7,
+        )
+
+    async def fake_news(*, ticker: str, brief: str, market: str = "US") -> NewsFindings:
+        captured_markets["news"] = market
+        return NewsFindings(
+            ticker=ticker, headline_count=0, sentiment="neutral", confidence=0.3,
+        )
+
+    async def fake_macro(*, ticker: str, brief: str, market: str = "US") -> MacroFindings:
+        captured_markets["macro"] = market
+        return MacroFindings(regime="neutral", confidence=0.8)
+
+    fake_client = MagicMock()
+    fake_client.messages.create = AsyncMock(side_effect=[
+        _message(_tool_use("dispatch_specialists", {
+            "specialists": ["fundamental", "technical", "news", "macro"],
+            "brief": "Reliance deep dive",
+        }, "d1"), stop_reason="tool_use"),
+        _message(
+            _tool_use("emit_quick_take", {"signal": "hold", "qualifier": "ok"}, "1"),
+            _tool_use("emit_stock_card", {
+                "ticker": "RELIANCE.NS", "name": "Reliance", "market": "IN",
+                "currency": "INR", "stats": {},
+            }, "2"),
+            _tool_use("emit_section", {"title": "Thesis", "markdown": ".", "citations": []}, "3"),
+            _tool_use("emit_section", {"title": "Risks", "markdown": ".", "citations": []}, "4"),
+            _tool_use("emit_recommendation", {
+                "signal": "hold", "position_size_range": [0, 0],
+                "entry_zone": "n/a", "stop": "n/a", "target_12mo_base": "n/a",
+            }, "5"),
+            _tool_use("emit_disclaimer", {}, "6"),
+            _tool_use("emit_done", {}, "7"),
+            stop_reason="end_turn",
+        ),
+    ])
+
+    with pytest.MonkeyPatch.context() as mp:
+        from app.agents import lead_banker as lb
+        mp.setattr(lb, "run_fundamental_analysis", fake_fundamental)
+        mp.setattr(lb, "run_technical_analysis", fake_technical)
+        mp.setattr(lb, "run_news_analysis", fake_news)
+        mp.setattr(lb, "run_macro_analysis", fake_macro)
+
+        from app.agents.lead_banker import run_lead_banker
+        async for _d in run_lead_banker(
+            user_message="deep dive on Reliance",
+            resolution=resolution,
+            client=fake_client,
+        ):
+            pass
+
+    assert captured_markets == {
+        "fundamental": "IN",
+        "technical": "IN",
+        "news": "IN",
+        "macro": "IN",
+    }

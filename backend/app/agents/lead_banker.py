@@ -145,7 +145,7 @@ def _load_prompt() -> str:
 def _build_user_message(user_text: str, resolution: TickerResolution) -> str:
     return (
         f"User question: {user_text}\n\n"
-        f"Resolved ticker: {resolution.ticker} ({resolution.name}, {resolution.market})\n\n"
+        f"Resolved ticker: {resolution.ticker} ({resolution.name}, market={resolution.market})\n\n"
         "Specialists available: fundamental, technical, news, macro.\n\n"
         "Call dispatch_specialists first with the specialists you want, then use the emit_* tools "
         "to stream the response. Emit order: quick_take → stock_card → sections → recommendation "
@@ -153,17 +153,27 @@ def _build_user_message(user_text: str, resolution: TickerResolution) -> str:
     )
 
 
-async def _run_dispatch(specialists: list[str], brief: str, ticker: str) -> dict[str, Any]:
+async def _run_dispatch(
+    specialists: list[str], brief: str, ticker: str, market: str,
+) -> dict[str, Any]:
     """Run the requested specialists in parallel. Returns {name: findings_dict} + errors."""
     name_to_coro: dict[str, Any] = {}
     if "fundamental" in specialists:
-        name_to_coro["fundamental"] = run_fundamental_analysis(ticker=ticker, brief=brief)
+        name_to_coro["fundamental"] = run_fundamental_analysis(
+            ticker=ticker, brief=brief, market=market,
+        )
     if "technical" in specialists:
-        name_to_coro["technical"] = run_technical_analysis(ticker=ticker, brief=brief)
+        name_to_coro["technical"] = run_technical_analysis(
+            ticker=ticker, brief=brief, market=market,
+        )
     if "news" in specialists:
-        name_to_coro["news"] = run_news_analysis(ticker=ticker, brief=brief)
+        name_to_coro["news"] = run_news_analysis(
+            ticker=ticker, brief=brief, market=market,
+        )
     if "macro" in specialists:
-        name_to_coro["macro"] = run_macro_analysis(ticker=ticker, brief=brief)
+        name_to_coro["macro"] = run_macro_analysis(
+            ticker=ticker, brief=brief, market=market,
+        )
 
     if not name_to_coro:
         return {"errors": {"none": "no recognized specialists requested"}}
@@ -236,7 +246,9 @@ async def run_lead_banker(
             if name == "dispatch_specialists":
                 specialists = cast(list[str], args.get("specialists", []))
                 brief = cast(str, args.get("brief", ""))
-                findings = await _run_dispatch(specialists, brief, resolution.ticker)
+                findings = await _run_dispatch(
+                    specialists, brief, resolution.ticker, resolution.market,
+                )
                 tool_results.append({
                     "type": "tool_result",
                     "tool_use_id": block_id,

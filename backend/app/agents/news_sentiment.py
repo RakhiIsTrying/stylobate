@@ -80,6 +80,7 @@ async def run_news_analysis(
     *,
     ticker: str,
     brief: str,
+    market: str = "US",  # passed to data layer in Phase 3+
     client: AsyncAnthropic | Any | None = None,
 ) -> NewsFindings:
     c = client or get_client()
