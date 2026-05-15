@@ -85,3 +85,31 @@ class PositionOut(BaseModel):
     currency: str
     opened_at: date | None
     created_at: datetime
+
+
+class PositionWithPrice(PositionOut):
+    current_price: float | None = None
+    price_currency: str | None = None
+    as_of: datetime | None = None
+    pl_pct: float | None = None
+    value_native: float | None = None
+
+
+CohortGroup = Literal["equity_etf", "crypto"]
+
+
+class CohortSummary(BaseModel):
+    currency: str
+    asset_class_group: CohortGroup
+    positions_count: int
+    total_cost_native: float
+    total_value_native: float | None
+    pl_pct: float | None
+    as_of: datetime | None
+
+
+class PositionsResponse(BaseModel):
+    portfolio_id: UUID
+    positions: list[PositionWithPrice]
+    cohorts: list[CohortSummary]
+    prices_partial: bool = False

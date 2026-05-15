@@ -14,9 +14,23 @@ __all__ = [
     "get_position_by_ticker",
     "insert_position",
     "list_portfolios",
+    "list_positions",
     "rename_portfolio",
     "update_position",
 ]
+
+
+async def list_positions(user_id: str, portfolio_id: str) -> list[dict[str, Any]]:
+    async with acquire_conn() as conn:
+        rows = await conn.fetch(
+            "SELECT positions.id, portfolio_id, ticker, market, asset_class, "
+            "quantity, cost_basis, currency, opened_at, positions.created_at "
+            "FROM positions JOIN portfolios ON positions.portfolio_id = portfolios.id "
+            "WHERE portfolio_id = $1 AND portfolios.user_id = $2 "
+            "ORDER BY ticker ASC",
+            UUID(portfolio_id), UUID(user_id),
+        )
+    return [dict(r) for r in rows]
 
 
 async def list_portfolios(user_id: str) -> list[dict[str, Any]]:
