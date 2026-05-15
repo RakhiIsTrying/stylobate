@@ -35,3 +35,35 @@ def test_search_news_tool_schema() -> None:
     assert "ticker" in s["input_schema"]["properties"]
     assert "limit" in s["input_schema"]["properties"]
     assert s["input_schema"]["required"] == ["ticker"]
+
+
+def test_search_news_tool_schema_advertises_market_enum() -> None:
+    """The tool must surface `market` so the LLM passes it; without this,
+    crypto tickers like BTC resolve to a Grayscale ETF on Yahoo Finance.
+    """
+    from app.tools.news import search_news_tool
+    props = search_news_tool.schema["input_schema"]["properties"]
+    assert "market" in props
+    assert set(props["market"]["enum"]) == {"US", "IN", "CRYPTO"}
+    assert props["market"]["default"] == "US"
+
+
+@pytest.mark.asyncio
+async def test_search_news_threads_market_through_to_fetch() -> None:
+    """Regression: search_news must forward `market` to fetch_news_for_ticker.
+    Without this, BTC news fetched without market="CRYPTO" returns Grayscale
+    ETF news instead of Bitcoin news.
+    """
+    captured: dict[str, str] = {}
+
+    async def _capture(**kwargs: object) -> list[NewsItem]:
+        captured["market"] = str(kwargs.get("market"))
+        captured["ticker"] = str(kwargs.get("ticker"))
+        return []
+
+    with patch("app.tools.news._fetch_news_for_ticker", new=_capture):
+        from app.tools.news import search_news_tool
+        await search_news_tool.impl(ticker="BTC", market="CRYPTO")
+
+    assert captured["market"] == "CRYPTO"
+    assert captured["ticker"] == "BTC"

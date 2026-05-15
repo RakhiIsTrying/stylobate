@@ -80,7 +80,7 @@ async def run_news_analysis(
     *,
     ticker: str,
     brief: str,
-    market: str = "US",  # passed to data layer in Phase 3+
+    market: str = "US",
     client: AsyncAnthropic | Any | None = None,
 ) -> NewsFindings:
     c = client or get_client()
@@ -90,8 +90,9 @@ async def run_news_analysis(
         {
             "role": "user",
             "content": (
-                f"Ticker: {ticker}\nBrief: {brief}\n"
-                "Use search_news, then call submit_news_findings when ready."
+                f"Ticker: {ticker} (market: {market})\nBrief: {brief}\n"
+                f"Use search_news (pass market=\"{market}\"), then call "
+                "submit_news_findings when ready."
             ),
         }
     ]

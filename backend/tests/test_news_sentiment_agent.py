@@ -86,3 +86,43 @@ async def test_news_agent_raises_if_no_submit() -> None:
     from app.agents.news_sentiment import NewsError, run_news_analysis
     with pytest.raises(NewsError):
         await run_news_analysis(ticker="AAPL", brief="x", client=fake_client)
+
+
+@pytest.mark.asyncio
+async def test_news_agent_surfaces_market_in_user_message() -> None:
+    """When run_news_analysis is called with market="CRYPTO", the user
+    message must surface market=CRYPTO so the LLM passes it to search_news
+    (otherwise yfinance returns news for the Grayscale BTC ETF, not Bitcoin).
+    """
+    from app.tools.news import NewsResult, search_news_tool
+
+    fake_news = NewsResult(ticker="BTC", items=[])
+
+    fake_client = MagicMock()
+    fake_client.messages.create = AsyncMock(side_effect=[
+        _message(
+            _tool_use_block("submit_news_findings", {
+                "ticker": "BTC",
+                "headline_count": 0,
+                "sentiment": "neutral",
+                "catalysts": ["No recent headlines"],
+                "notable_headlines": [],
+                "citations": [],
+                "confidence": 0.2,
+            }, "n1"),
+            stop_reason="tool_use",
+        ),
+    ])
+
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(search_news_tool, "impl", AsyncMock(return_value=fake_news))
+        from app.agents.news_sentiment import run_news_analysis
+        await run_news_analysis(
+            ticker="BTC", brief="crypto news check",
+            market="CRYPTO", client=fake_client,
+        )
+
+    first_call = fake_client.messages.create.await_args_list[0]
+    user_message_content = first_call.kwargs["messages"][0]["content"]
+    lowered = user_message_content.lower()
+    assert "market: crypto" in lowered or "market=crypto" in lowered

@@ -22,8 +22,11 @@ async def _impl_get_price_history(
     ticker: str,
     period: str = "1y",
     interval: str = "1d",
+    market: str = "US",
 ) -> PriceHistoryResult:
-    bars = await _fetch_price_history(ticker=ticker, period=period, interval=interval)
+    bars = await _fetch_price_history(
+        ticker=ticker, period=period, interval=interval, market=market
+    )
     return PriceHistoryResult(ticker=ticker.upper(), bars=bars)
 
 
@@ -31,7 +34,9 @@ get_price_history_tool = Tool(
     name="get_price_history",
     description=(
         "OHLCV bars for the ticker. period: 1d/5d/1mo/3mo/6mo/1y/2y/5y/10y/ytd/max. "
-        "interval: 1m/5m/15m/30m/1h/1d/1wk/1mo. Default: 1y daily."
+        "interval: 1m/5m/15m/30m/1h/1d/1wk/1mo. Default: 1y daily. "
+        "Pass market='CRYPTO' for crypto tickers (BTC, ETH, etc.) so the adapter "
+        "appends -USD; 'IN' for Indian tickers; 'US' (default) otherwise."
     ),
     input_schema={
         "type": "object",
@@ -39,6 +44,11 @@ get_price_history_tool = Tool(
             "ticker": {"type": "string"},
             "period": {"type": "string", "default": "1y"},
             "interval": {"type": "string", "default": "1d"},
+            "market": {
+                "type": "string",
+                "enum": ["US", "IN", "CRYPTO"],
+                "default": "US",
+            },
         },
         "required": ["ticker"],
     },
@@ -72,9 +82,12 @@ async def _impl_calc_indicators(
     ticker: str,
     indicators: list[str] | None = None,
     period: str = "1y",
+    market: str = "US",
 ) -> IndicatorsResult:
     indicators = indicators or ["sma20", "sma200", "ema12", "ema26", "rsi14", "macd", "bbands20"]
-    bars = await _fetch_price_history(ticker=ticker, period=period, interval="1d")
+    bars = await _fetch_price_history(
+        ticker=ticker, period=period, interval="1d", market=market
+    )
     close = _close_series(bars)
     latest: dict[str, float | None] = {}
     for ind in indicators:
@@ -110,7 +123,9 @@ calc_indicators_tool = Tool(
     description=(
         "Compute latest values of technical indicators. "
         "Available indicators: sma20, sma50, sma200, ema12, ema26, ema50, rsi14, macd, bbands20. "
-        "Defaults to a useful core set if `indicators` omitted."
+        "Defaults to a useful core set if `indicators` omitted. "
+        "Pass market='CRYPTO' for crypto tickers (BTC, ETH, etc.); 'IN' for Indian "
+        "tickers; 'US' (default) otherwise."
     ),
     input_schema={
         "type": "object",
@@ -118,6 +133,11 @@ calc_indicators_tool = Tool(
             "ticker": {"type": "string"},
             "indicators": {"type": "array", "items": {"type": "string"}},
             "period": {"type": "string", "default": "1y"},
+            "market": {
+                "type": "string",
+                "enum": ["US", "IN", "CRYPTO"],
+                "default": "US",
+            },
         },
         "required": ["ticker"],
     },
@@ -144,6 +164,7 @@ async def _impl_detect_patterns(
     period: str = "1y",
     window: int = 5,
     tolerance: float = 0.01,
+    market: str = "US",
 ) -> PatternsResult:
     """Find prior swing lows (support) and highs (resistance).
 
@@ -151,7 +172,9 @@ async def _impl_detect_patterns(
     Group nearby lows into levels (within `tolerance` of each other) and
     count touches. Same for highs (resistance).
     """
-    bars = await _fetch_price_history(ticker=ticker, period=period, interval="1d")
+    bars = await _fetch_price_history(
+        ticker=ticker, period=period, interval="1d", market=market
+    )
     if len(bars) < 2 * window + 1:
         return PatternsResult(ticker=ticker.upper(), levels=[])
 
@@ -196,13 +219,20 @@ detect_patterns_tool = Tool(
     name="detect_patterns",
     description=(
         "Identify support and resistance price levels from prior swing lows/highs over "
-        "the lookback period. Returns clustered levels with touch counts."
+        "the lookback period. Returns clustered levels with touch counts. "
+        "Pass market='CRYPTO' for crypto tickers (BTC, ETH, etc.); 'IN' for Indian "
+        "tickers; 'US' (default) otherwise."
     ),
     input_schema={
         "type": "object",
         "properties": {
             "ticker": {"type": "string"},
             "period": {"type": "string", "default": "1y"},
+            "market": {
+                "type": "string",
+                "enum": ["US", "IN", "CRYPTO"],
+                "default": "US",
+            },
         },
         "required": ["ticker"],
     },
@@ -227,8 +257,11 @@ async def _impl_get_volume_profile(
     ticker: str,
     period: str = "1y",
     bins: int = 20,
+    market: str = "US",
 ) -> VolumeProfileResult:
-    bars = await _fetch_price_history(ticker=ticker, period=period, interval="1d")
+    bars = await _fetch_price_history(
+        ticker=ticker, period=period, interval="1d", market=market
+    )
     if not bars:
         return VolumeProfileResult(ticker=ticker.upper(), high_volume_levels=[])
 
@@ -259,13 +292,20 @@ get_volume_profile_tool = Tool(
     name="get_volume_profile",
     description=(
         "Histogram of price levels weighted by volume over the lookback period. "
-        "Returns the top 5 high-volume price nodes."
+        "Returns the top 5 high-volume price nodes. "
+        "Pass market='CRYPTO' for crypto tickers (BTC, ETH, etc.); 'IN' for Indian "
+        "tickers; 'US' (default) otherwise."
     ),
     input_schema={
         "type": "object",
         "properties": {
             "ticker": {"type": "string"},
             "period": {"type": "string", "default": "1y"},
+            "market": {
+                "type": "string",
+                "enum": ["US", "IN", "CRYPTO"],
+                "default": "US",
+            },
         },
         "required": ["ticker"],
     },

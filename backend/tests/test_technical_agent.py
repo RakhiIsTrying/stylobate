@@ -110,3 +110,56 @@ async def test_technical_agent_raises_if_no_submit() -> None:
     from app.agents.technical import TechnicalError, run_technical_analysis
     with pytest.raises(TechnicalError):
         await run_technical_analysis(ticker="AAPL", brief="x", client=fake_client)
+
+
+@pytest.mark.asyncio
+async def test_technical_agent_surfaces_market_in_user_message() -> None:
+    """When run_technical_analysis is called with market="CRYPTO", the user
+    message must surface market=CRYPTO so the LLM passes it to every tool
+    call (otherwise yfinance resolves BTC to a Grayscale ETF, not Bitcoin).
+    """
+    from app.tools.technical import (
+        IndicatorsResult,
+        calc_indicators_tool,
+        detect_patterns_tool,
+        get_volume_profile_tool,
+    )
+
+    fake_indicators = IndicatorsResult(
+        ticker="BTC", period="1y",
+        latest={"sma200": 60000.0, "rsi14": 55.0},
+    )
+
+    fake_client = MagicMock()
+    fake_client.messages.create = AsyncMock(side_effect=[
+        _message(
+            _tool_use_block("submit_technical_findings", {
+                "ticker": "BTC",
+                "trend": "uptrend",
+                "rsi_14": 55.0,
+                "key_levels": [],
+                "pattern_notes": ["uptrend"],
+                "citations": [{"source": "yfinance", "ref": "yfinance:BTC"}],
+                "confidence": 0.8,
+            }, "c1"),
+            stop_reason="tool_use",
+        ),
+    ])
+
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(calc_indicators_tool, "impl", AsyncMock(return_value=fake_indicators))
+        mp.setattr(detect_patterns_tool, "impl", AsyncMock())
+        mp.setattr(get_volume_profile_tool, "impl", AsyncMock())
+
+        from app.agents.technical import run_technical_analysis
+        await run_technical_analysis(
+            ticker="BTC", brief="crypto check",
+            market="CRYPTO", client=fake_client,
+        )
+
+    first_call = fake_client.messages.create.await_args_list[0]
+    user_message_content = first_call.kwargs["messages"][0]["content"]
+    lowered = user_message_content.lower()
+    assert "market: crypto" in lowered or "market=crypto" in lowered
+    # And the prompt instructs the model to pass market on tool calls
+    assert "crypto" in user_message_content

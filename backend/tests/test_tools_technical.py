@@ -123,3 +123,96 @@ def test_tool_schemas_have_required_ticker() -> None:
     ):
         assert "ticker" in t.schema["input_schema"]["properties"]
         assert "ticker" in t.schema["input_schema"]["required"]
+
+
+def test_tool_schemas_advertise_market_enum() -> None:
+    """Each technical tool must surface `market` so the LLM passes it; without
+    this, crypto tickers like BTC resolve to a Grayscale ETF on Yahoo Finance.
+    """
+    from app.tools.technical import (
+        calc_indicators_tool,
+        detect_patterns_tool,
+        get_price_history_tool,
+        get_volume_profile_tool,
+    )
+
+    for t in (
+        get_price_history_tool,
+        calc_indicators_tool,
+        detect_patterns_tool,
+        get_volume_profile_tool,
+    ):
+        props = t.schema["input_schema"]["properties"]
+        assert "market" in props, f"{t.name} schema missing market"
+        assert set(props["market"]["enum"]) == {"US", "IN", "CRYPTO"}
+        assert props["market"]["default"] == "US"
+
+
+@pytest.mark.asyncio
+async def test_calc_indicators_threads_market_through_to_fetch() -> None:
+    """Regression test: calc_indicators must forward `market` to
+    fetch_price_history. Without this, BTC fetched without market="CRYPTO"
+    hits the bare-symbol ETF on Yahoo Finance instead of Bitcoin.
+    """
+    captured: dict[str, str] = {}
+
+    async def _capture(**kwargs: object) -> list[Bar]:
+        captured["market"] = str(kwargs.get("market"))
+        captured["ticker"] = str(kwargs.get("ticker"))
+        return _bars(60)
+
+    with patch("app.tools.technical._fetch_price_history", new=_capture):
+        from app.tools.technical import calc_indicators_tool
+
+        await calc_indicators_tool.impl(ticker="BTC", market="CRYPTO")
+
+    assert captured["market"] == "CRYPTO"
+    assert captured["ticker"] == "BTC"
+
+
+@pytest.mark.asyncio
+async def test_detect_patterns_threads_market_through_to_fetch() -> None:
+    captured: dict[str, str] = {}
+
+    async def _capture(**kwargs: object) -> list[Bar]:
+        captured["market"] = str(kwargs.get("market"))
+        return _bars(60)
+
+    with patch("app.tools.technical._fetch_price_history", new=_capture):
+        from app.tools.technical import detect_patterns_tool
+
+        await detect_patterns_tool.impl(ticker="BTC", market="CRYPTO")
+
+    assert captured["market"] == "CRYPTO"
+
+
+@pytest.mark.asyncio
+async def test_get_volume_profile_threads_market_through_to_fetch() -> None:
+    captured: dict[str, str] = {}
+
+    async def _capture(**kwargs: object) -> list[Bar]:
+        captured["market"] = str(kwargs.get("market"))
+        return _bars(60)
+
+    with patch("app.tools.technical._fetch_price_history", new=_capture):
+        from app.tools.technical import get_volume_profile_tool
+
+        await get_volume_profile_tool.impl(ticker="BTC", market="CRYPTO")
+
+    assert captured["market"] == "CRYPTO"
+
+
+@pytest.mark.asyncio
+async def test_get_price_history_threads_market_through_to_fetch() -> None:
+    captured: dict[str, str] = {}
+
+    async def _capture(**kwargs: object) -> list[Bar]:
+        captured["market"] = str(kwargs.get("market"))
+        return _bars(5)
+
+    with patch("app.tools.technical._fetch_price_history", new=_capture):
+        from app.tools.technical import get_price_history_tool
+
+        await get_price_history_tool.impl(ticker="BTC", market="CRYPTO")
+
+    assert captured["market"] == "CRYPTO"

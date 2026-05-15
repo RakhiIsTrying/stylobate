@@ -86,7 +86,7 @@ async def run_technical_analysis(
     *,
     ticker: str,
     brief: str,
-    market: str = "US",  # passed to data layer in Phase 3+
+    market: str = "US",
     client: AsyncAnthropic | Any | None = None,
 ) -> TechnicalFinding:
     c = client or get_client()
@@ -96,8 +96,9 @@ async def run_technical_analysis(
         {
             "role": "user",
             "content": (
-                f"Ticker: {ticker}\nBrief: {brief}\n"
-                "Use the technical tools and submit_technical_findings when ready."
+                f"Ticker: {ticker} (market: {market})\nBrief: {brief}\n"
+                f"Use the technical tools (pass market=\"{market}\" on every call) "
+                "and submit_technical_findings when ready."
             ),
         }
     ]
