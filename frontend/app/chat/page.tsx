@@ -5,7 +5,7 @@ import { ChatThread } from "@/components/chat-thread";
 import { Composer } from "@/components/composer";
 import { parseSSEStream, postChatStream } from "@/lib/sse";
 import { createClient } from "@/lib/supabase/client";
-import type { ChatMessage } from "@/lib/types";
+import type { ChatMessage, ChatMessageBlock } from "@/lib/types";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8000";
 
@@ -37,18 +37,34 @@ export default function ChatPage() {
         jwt, content: text, chatId, backendUrl: BACKEND_URL,
       });
       const asstId = crypto.randomUUID();
-      const asstMsg: ChatMessage = { id: asstId, role: "assistant", content: [] };
+      const asstMsg: ChatMessage = {
+        id: asstId, role: "assistant", content: [], progress: [],
+      };
       setMessages((m) => [...m, asstMsg]);
-      let buf: ChatMessage["content"] = [];
+      const blocks: ChatMessageBlock[] = [];
+      const progress: { step: string; ticker?: string }[] = [];
 
       for await (const ev of parseSSEStream(stream)) {
-        if (ev.event === "delta" && ev.data.type === "text") {
-          buf = Array.isArray(buf) ? [...buf, ev.data] : [ev.data];
+        if (ev.event === "progress") {
+          progress.push({ step: ev.data.step, ticker: ev.data.ticker });
+          const progSnapshot = [...progress];
           setMessages((m) =>
-            m.map((x) => (x.id === asstId ? { ...x, content: buf } : x)),
+            m.map((x) => x.id === asstId ? { ...x, progress: progSnapshot } : x),
+          );
+        } else if (ev.event === "delta") {
+          blocks.push(ev.data);
+          const blocksSnapshot = [...blocks];
+          setMessages((m) =>
+            m.map((x) => x.id === asstId ? { ...x, content: blocksSnapshot } : x),
           );
         } else if (ev.event === "done") {
-          setChatId(ev.data.chat_id);
+          if (ev.data.chat_id) setChatId(ev.data.chat_id);
+        } else if (ev.event === "error") {
+          blocks.push({ type: "text", text: `Error: ${ev.data.message}` });
+          const blocksSnapshot = [...blocks];
+          setMessages((m) =>
+            m.map((x) => x.id === asstId ? { ...x, content: blocksSnapshot } : x),
+          );
         }
       }
     } finally {
