@@ -6,13 +6,19 @@ from contextlib import asynccontextmanager
 
 import asyncpg
 
+from app.config import get_settings
+
 _pool: asyncpg.Pool | None = None
 
 
 async def get_pool() -> asyncpg.Pool:
     global _pool
     if _pool is None:
-        dsn = os.environ.get("SUPABASE_DB_URL") or os.environ.get("DATABASE_URL")
+        dsn = (
+            get_settings().supabase_db_url
+            or os.environ.get("SUPABASE_DB_URL")
+            or os.environ.get("DATABASE_URL")
+        )
         if not dsn:
             raise RuntimeError("SUPABASE_DB_URL (or DATABASE_URL) env var not set")
         _pool = await asyncpg.create_pool(dsn, min_size=1, max_size=8)
