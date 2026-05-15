@@ -10,7 +10,9 @@ import {
   type PositionsResponse,
 } from "@/lib/api-portfolios";
 import { refreshPrices } from "@/lib/api-prices";
+import { AddPositionModal } from "./add-position-modal";
 import { CohortCard } from "./cohort-card";
+import { EditPositionModal } from "./edit-position-modal";
 import { PortfolioSelector } from "./portfolio-selector";
 import { PortfolioTable } from "./portfolio-table";
 import { RefreshButton } from "./refresh-button";
@@ -21,6 +23,8 @@ export function PortfolioTab() {
   const [data, setData] = useState<PositionsResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [addOpen, setAddOpen] = useState(false);
+  const [editing, setEditing] = useState<Position | null>(null);
 
   const reloadPositions = useCallback(async () => {
     if (!selectedId) return;
@@ -137,7 +141,7 @@ export function PortfolioTab() {
         <div className="flex gap-2">
           <RefreshButton onRefresh={handleRefresh} />
           <button
-            onClick={() => alert("Add Position modal lands in T9")}
+            onClick={() => setAddOpen(true)}
             className="border rounded-md px-3 py-1 text-sm bg-blue-500 text-white hover:bg-blue-600"
           >
             + Add position
@@ -163,7 +167,7 @@ export function PortfolioTab() {
         <PortfolioTable
           positions={data.positions}
           cohorts={data.cohorts}
-          onEdit={() => alert("Edit modal lands in T9")}
+          onEdit={setEditing}
           onDelete={handleDelete}
         />
       )}
@@ -173,6 +177,25 @@ export function PortfolioTab() {
           Prices temporarily unavailable for some tickers. Click Refresh to
           retry.
         </div>
+      )}
+
+      {addOpen && selectedId && (
+        <AddPositionModal
+          portfolioId={selectedId}
+          onClose={() => setAddOpen(false)}
+          onSaved={() => {
+            void reloadPositions();
+          }}
+        />
+      )}
+      {editing && (
+        <EditPositionModal
+          position={editing}
+          onClose={() => setEditing(null)}
+          onSaved={() => {
+            void reloadPositions();
+          }}
+        />
       )}
     </div>
   );
