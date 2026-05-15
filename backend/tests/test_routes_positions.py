@@ -143,6 +143,20 @@ async def test_add_position_upserts_weighted_avg(
     assert Decimal(str(body["quantity"])) == Decimal("100")
     assert Decimal(str(body["cost_basis"])) == Decimal("180.0")
 
+    # The mock's UPDATE row is what the response echoes — that doesn't prove
+    # the route did the weighted-avg math. Assert on the args passed to the
+    # UPDATE fetchrow call (3rd fetchrow: ownership, existing, UPDATE).
+    update_call = mock_conn.fetchrow.await_args_list[2]
+    update_args = update_call.args
+    # update_position dynamic SQL: $1=quantity, $2=cost_basis, $3=opened_at,
+    # $4=position_id, $5=user_id
+    assert Decimal(str(update_args[1])) == Decimal("100"), \
+        f"route should compute new_qty=100, got {update_args[1]}"
+    assert Decimal(str(update_args[2])) == Decimal("180"), \
+        f"route should compute weighted-avg basis=180, got {update_args[2]}"
+    # opened_at should be the earliest of the two dates (2024-03-15 < 2025-01-10)
+    assert update_args[3] == date(2024, 3, 15)
+
 
 @pytest.mark.asyncio
 async def test_add_position_validates_market(
