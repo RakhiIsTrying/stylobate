@@ -2,7 +2,8 @@
 
 const LABELS: Record<string, string> = {
   resolving_ticker: "Resolving ticker",
-  running_fundamentals: "Running Fundamental Analyst",
+  running_specialists: "Consulting specialists",
+  running_fundamentals: "Running Fundamental Analyst", // legacy, kept for older DB rows
   synthesizing: "Synthesizing",
   received: "Received",
 };
