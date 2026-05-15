@@ -1,17 +1,45 @@
 # backend/app/agents/lead_banker.py
+import asyncio
+import json
 from collections.abc import AsyncGenerator
 from pathlib import Path
 from typing import Any, cast
 
 from anthropic import AsyncAnthropic
 
-from app.agents.fundamental import FundamentalFindings
+from app.agents.fundamental import run_fundamental_analysis
+from app.agents.technical import run_technical_analysis
 from app.agents.ticker_resolver import TickerResolution
 from app.core.anthropic_client import get_client
 
 _MODEL = "claude-opus-4-7"
+_MAX_TURNS = 12
 
-_MAX_TURNS = 12  # safety cap — 6 emit_* tools, each needs one round-trip at most
+_DISCLAIMER_TEXT = (
+    "Educational analysis, not personalized investment advice. "
+    "Do your own diligence and consider your tax situation."
+)
+
+_DISPATCH_TOOL: dict[str, Any] = {
+    "name": "dispatch_specialists",
+    "description": (
+        "Run one or more specialist agents in parallel and receive their findings. "
+        "Specialists available in Phase 2A: 'fundamental', 'technical'. "
+        "Returns combined findings JSON as the tool result."
+    ),
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "specialists": {
+                "type": "array",
+                "items": {"type": "string", "enum": ["fundamental", "technical"]},
+                "minItems": 1,
+            },
+            "brief": {"type": "string", "description": "One-line context for the specialists"},
+        },
+        "required": ["specialists", "brief"],
+    },
+}
 
 _EMIT_TOOLS: list[dict[str, Any]] = [
     {
@@ -46,7 +74,7 @@ _EMIT_TOOLS: list[dict[str, Any]] = [
     },
     {
         "name": "emit_section",
-        "description": "Stream a section of the research note with markdown and citation list.",
+        "description": "Stream a section of the research note with markdown and citations.",
         "input_schema": {
             "type": "object",
             "properties": {
@@ -103,49 +131,59 @@ _EMIT_TOOLS: list[dict[str, Any]] = [
     },
 ]
 
-_DISCLAIMER_TEXT = (
-    "Educational analysis, not personalized investment advice. "
-    "Do your own diligence and consider your tax situation."
-)
-
 
 def _load_prompt() -> str:
-    path = Path(__file__).parent.parent / "prompts" / "lead_banker.md"
-    return path.read_text(encoding="utf-8")
+    return (Path(__file__).parent.parent / "prompts" / "lead_banker.md").read_text(encoding="utf-8")
 
 
-def _build_user_message(
-    user_text: str,
-    resolution: TickerResolution,
-    findings: FundamentalFindings,
-) -> str:
+def _build_user_message(user_text: str, resolution: TickerResolution) -> str:
     return (
         f"User question: {user_text}\n\n"
         f"Resolved ticker: {resolution.ticker} ({resolution.name}, {resolution.market})\n\n"
-        f"Fundamental Analyst findings:\n{findings.model_dump_json(indent=2)}\n\n"
-        "Now synthesize the response by calling the emit_* tools in the prescribed order."
+        "Specialists available: fundamental, technical.\n\n"
+        "Call dispatch_specialists first with the specialists you want, then use the emit_* tools "
+        "to stream the response. Emit order: quick_take → stock_card → sections → recommendation "
+        "→ disclaimer → done."
     )
 
 
-def _process_block(
-    block: Any,
-) -> dict[str, Any] | None:
-    """Convert a tool_use block into a delta dict, or return None if not a known tool."""
+async def _run_dispatch(specialists: list[str], brief: str, ticker: str) -> dict[str, Any]:
+    """Run the requested specialists in parallel. Returns {name: findings_dict} + errors."""
+    name_to_coro: dict[str, Any] = {}
+    if "fundamental" in specialists:
+        name_to_coro["fundamental"] = run_fundamental_analysis(ticker=ticker, brief=brief)
+    if "technical" in specialists:
+        name_to_coro["technical"] = run_technical_analysis(ticker=ticker, brief=brief)
+
+    if not name_to_coro:
+        return {"errors": {"none": "no recognized specialists requested"}}
+
+    results = await asyncio.gather(*name_to_coro.values(), return_exceptions=True)
+    out: dict[str, Any] = {"errors": {}}
+    for name, res in zip(name_to_coro.keys(), results, strict=True):
+        if isinstance(res, Exception):
+            out["errors"][name] = str(res)
+        else:
+            out[name] = res.model_dump(mode="json")  # type: ignore[union-attr]
+    return out
+
+
+def _process_emit_block(block: Any) -> dict[str, Any] | None:
     if getattr(block, "type", None) != "tool_use":
         return None
     name = getattr(block, "name", "")
     args = cast(dict[str, Any], getattr(block, "input", {})) or {}
     if name == "emit_quick_take":
         return {"type": "quick_take", **args}
-    elif name == "emit_stock_card":
+    if name == "emit_stock_card":
         return {"type": "stock_card", **args}
-    elif name == "emit_section":
+    if name == "emit_section":
         return {"type": "section", **args}
-    elif name == "emit_recommendation":
+    if name == "emit_recommendation":
         return {"type": "recommendation", **args}
-    elif name == "emit_disclaimer":
+    if name == "emit_disclaimer":
         return {"type": "disclaimer", "text": _DISCLAIMER_TEXT}
-    elif name == "emit_done":
+    if name == "emit_done":
         return {"type": "done"}
     return None
 
@@ -154,17 +192,13 @@ async def run_lead_banker(
     *,
     user_message: str,
     resolution: TickerResolution,
-    fundamental_findings: FundamentalFindings,
     client: AsyncAnthropic | Any | None = None,
 ) -> AsyncGenerator[dict[str, Any], None]:
     c = client or get_client()
     sys = _load_prompt()
-    system_blocks = [
-        {"type": "text", "text": sys, "cache_control": {"type": "ephemeral"}},
-    ]
-    user_content = _build_user_message(user_message, resolution, fundamental_findings)
+    system_blocks = [{"type": "text", "text": sys, "cache_control": {"type": "ephemeral"}}]
     messages: list[dict[str, Any]] = [
-        {"role": "user", "content": user_content},
+        {"role": "user", "content": _build_user_message(user_message, resolution)},
     ]
 
     for _turn in range(_MAX_TURNS):
@@ -172,12 +206,11 @@ async def run_lead_banker(
             "model": _MODEL,
             "max_tokens": 4000,
             "system": system_blocks,
-            "tools": _EMIT_TOOLS,
+            "tools": [_DISPATCH_TOOL, *_EMIT_TOOLS],
             "messages": messages,
         }
         resp = await c.messages.create(**kwargs)
 
-        # Collect tool_use blocks for reply and emit deltas
         tool_use_blocks: list[Any] = []
         tool_results: list[dict[str, Any]] = []
         done = False
@@ -186,15 +219,27 @@ async def run_lead_banker(
             if getattr(block, "type", None) != "tool_use":
                 continue
             tool_use_blocks.append(block)
-            delta = _process_block(block)
+            name = getattr(block, "name", "")
+            args = cast(dict[str, Any], getattr(block, "input", {})) or {}
+            block_id = cast(str, getattr(block, "id", ""))
+
+            if name == "dispatch_specialists":
+                specialists = cast(list[str], args.get("specialists", []))
+                brief = cast(str, args.get("brief", ""))
+                findings = await _run_dispatch(specialists, brief, resolution.ticker)
+                tool_results.append({
+                    "type": "tool_result",
+                    "tool_use_id": block_id,
+                    "content": json.dumps(findings, default=str),
+                })
+                continue
+
+            # Emit tool — yield delta and acknowledge to the model
+            delta = _process_emit_block(block)
             if delta is not None:
                 if delta["type"] == "done":
                     done = True
-                    yield delta
-                else:
-                    yield delta
-            # Always send back a success result so the model can continue
-            block_id = cast(str, getattr(block, "id", ""))
+                yield delta
             tool_results.append({
                 "type": "tool_result",
                 "tool_use_id": block_id,
@@ -203,11 +248,8 @@ async def run_lead_banker(
 
         if done or resp.stop_reason == "end_turn":
             return
-
         if not tool_use_blocks:
-            # Model returned without calling any tools — stop to avoid infinite loop
             return
 
-        # Append assistant turn + tool results and loop
         messages.append({"role": "assistant", "content": resp.content})
         messages.append({"role": "user", "content": tool_results})
