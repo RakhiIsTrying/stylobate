@@ -12,6 +12,20 @@ def _make_ticker(ticker: str) -> Any:
     return yf.Ticker(ticker)
 
 
+def _yf_symbol(ticker: str, market: str) -> str:
+    """Map our canonical ticker to the yfinance symbol.
+
+    yfinance crypto symbols use a -USD suffix (BTC -> BTC-USD); our
+    canonical form drops the suffix. US and Indian tickers pass through
+    unchanged. If the ticker already includes -USD, don't double it.
+    """
+    if market == "CRYPTO":
+        if "-" in ticker:
+            return ticker
+        return f"{ticker}-USD"
+    return ticker
+
+
 class TickerInfo(BaseModel):
     ticker: str
     name: str
@@ -89,9 +103,9 @@ def _float_or_none(value: Any) -> float | None:
         return None
 
 
-async def fetch_ticker_info(ticker: str) -> TickerInfo:
+async def fetch_ticker_info(ticker: str, market: str = "US") -> TickerInfo:
     def _sync() -> TickerInfo:
-        t = _make_ticker(ticker)
+        t = _make_ticker(_yf_symbol(ticker, market))
         info = t.info or {}
         fast = getattr(t, "fast_info", None)
         last_price = _float_or_none(getattr(fast, "last_price", None))
@@ -107,9 +121,11 @@ async def fetch_ticker_info(ticker: str) -> TickerInfo:
     return await asyncio.to_thread(_sync)
 
 
-async def fetch_financials(ticker: str, periods: int = 4) -> list[Financials]:
+async def fetch_financials(
+    ticker: str, periods: int = 4, market: str = "US"
+) -> list[Financials]:
     def _sync() -> list[Financials]:
-        t = _make_ticker(ticker)
+        t = _make_ticker(_yf_symbol(ticker, market))
         info = t.info or {}
         currency = info.get("currency", "USD")
         income = getattr(t, "income_stmt", None)
@@ -142,9 +158,9 @@ async def fetch_financials(ticker: str, periods: int = 4) -> list[Financials]:
     return await asyncio.to_thread(_sync)
 
 
-async def fetch_key_ratios(ticker: str) -> KeyRatios:
+async def fetch_key_ratios(ticker: str, market: str = "US") -> KeyRatios:
     def _sync() -> KeyRatios:
-        t = _make_ticker(ticker)
+        t = _make_ticker(_yf_symbol(ticker, market))
         info = t.info or {}
         return KeyRatios(
             ticker=ticker.upper(),
@@ -172,6 +188,7 @@ async def fetch_price_history(
     ticker: str,
     period: str = "1y",
     interval: str = "1d",
+    market: str = "US",
 ) -> list[Bar]:
     """OHLCV bars for the ticker. period/interval per yfinance convention.
 
@@ -180,7 +197,7 @@ async def fetch_price_history(
     """
 
     def _sync() -> list[Bar]:
-        t = _make_ticker(ticker)
+        t = _make_ticker(_yf_symbol(ticker, market))
         df = t.history(period=period, interval=interval)
         if df is None or df.empty:
             return []
@@ -211,14 +228,16 @@ async def fetch_price_history(
     return await asyncio.to_thread(_sync)
 
 
-async def fetch_news_for_ticker(ticker: str, limit: int = 10) -> list[NewsItem]:
+async def fetch_news_for_ticker(
+    ticker: str, limit: int = 10, market: str = "US"
+) -> list[NewsItem]:
     """Recent news headlines for the ticker, via Yahoo Finance.
 
     yfinance returns at most ~20 recent items per ticker; we slice to `limit`.
     """
 
     def _sync() -> list[NewsItem]:
-        t = _make_ticker(ticker)
+        t = _make_ticker(_yf_symbol(ticker, market))
         raw = getattr(t, "news", None) or []
         out: list[NewsItem] = []
         for item in raw[:limit]:

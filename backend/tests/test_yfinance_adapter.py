@@ -230,3 +230,42 @@ async def test_fetch_sector_etf_returns_computes_period_returns() -> None:
     assert returns["XLK"] == pytest.approx(0.10, rel=0.01)
     assert returns["XLF"] == pytest.approx(0.0, abs=0.001)
     assert returns["XLV"] == pytest.approx(-0.05, rel=0.01)
+
+
+def test_yf_symbol_for_us_stock_unchanged() -> None:
+    from app.data.yfinance_adapter import _yf_symbol
+    assert _yf_symbol("AAPL", "US") == "AAPL"
+    assert _yf_symbol("BRK.B", "US") == "BRK.B"
+
+
+def test_yf_symbol_for_indian_stock_unchanged() -> None:
+    from app.data.yfinance_adapter import _yf_symbol
+    assert _yf_symbol("RELIANCE.NS", "IN") == "RELIANCE.NS"
+    assert _yf_symbol("TCS.BO", "IN") == "TCS.BO"
+
+
+def test_yf_symbol_for_crypto_appends_usd() -> None:
+    from app.data.yfinance_adapter import _yf_symbol
+    assert _yf_symbol("BTC", "CRYPTO") == "BTC-USD"
+    assert _yf_symbol("ETH", "CRYPTO") == "ETH-USD"
+    # Already in BTC-USD form: no double-suffix
+    assert _yf_symbol("BTC-USD", "CRYPTO") == "BTC-USD"
+
+
+@pytest.mark.asyncio
+async def test_fetch_ticker_info_crypto_uses_mapped_symbol() -> None:
+    captured: list[str] = []
+
+    def _capture(symbol: str) -> MagicMock:
+        captured.append(symbol)
+        m = MagicMock()
+        m.info = {"shortName": "Bitcoin USD", "currency": "USD", "marketCap": 1_500_000_000_000}
+        m.fast_info = MagicMock(last_price=72000.0, market_cap=1_500_000_000_000)
+        return m
+
+    with patch("app.data.yfinance_adapter._make_ticker", side_effect=_capture):
+        from app.data.yfinance_adapter import fetch_ticker_info
+        info = await fetch_ticker_info("BTC", market="CRYPTO")
+    assert captured == ["BTC-USD"]
+    assert info.ticker == "BTC"  # canonical form preserved in return value
+    assert info.currency == "USD"
