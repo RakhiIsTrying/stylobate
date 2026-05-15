@@ -35,6 +35,7 @@ async def test_macro_agent_runs_tool_loop_to_submit() -> None:
     )
 
     fake_rates = RatesResult(
+        market="US",
         fed_funds=5.25, treasury_2y=4.87, treasury_10y=4.42, real_10y=2.10,
     )
     fake_sectors = SectorPerfResult(
