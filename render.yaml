@@ -43,3 +43,11 @@ services:
       # the first deploy creates the service.
       - key: ANTHROPIC_API_KEY
         sync: false
+
+      # Postgres DSN for the portfolio/watchlist endpoints (Phase 3A+).
+      # Get from Supabase dashboard → Project Settings → Database →
+      # Connection string (URI tab). Format:
+      #   postgresql://postgres:<password>@db.pvjamgocmmldfpzzswaj.supabase.co:5432/postgres
+      # Paste it in the Render dashboard after first deploy.
+      - key: SUPABASE_DB_URL
+        sync: false
