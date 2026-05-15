@@ -47,7 +47,7 @@ def _env_defaults(monkeypatch: pytest.MonkeyPatch) -> Generator[None, None, None
 
 @pytest.fixture(autouse=True)
 def _mock_jwks() -> Generator[None, None, None]:
-    with respx.mock(assert_all_called=False, assert_all_mocked=False) as mock:
+    with respx.mock(assert_all_called=False, assert_all_mocked=True) as mock:
         mock.get("https://test.supabase.co/auth/v1/.well-known/jwks.json").respond(
             json={"keys": [_public_jwk()]},
         )
