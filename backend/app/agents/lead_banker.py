@@ -11,6 +11,7 @@ from app.core.anthropic_client import get_client
 
 _MODEL = "claude-opus-4-7"
 
+_MAX_TURNS = 12  # safety cap — 6 emit_* tools, each needs one round-trip at most
 
 _EMIT_TOOLS: list[dict[str, Any]] = [
     {
@@ -126,6 +127,29 @@ def _build_user_message(
     )
 
 
+def _process_block(
+    block: Any,
+) -> dict[str, Any] | None:
+    """Convert a tool_use block into a delta dict, or return None if not a known tool."""
+    if getattr(block, "type", None) != "tool_use":
+        return None
+    name = getattr(block, "name", "")
+    args = cast(dict[str, Any], getattr(block, "input", {})) or {}
+    if name == "emit_quick_take":
+        return {"type": "quick_take", **args}
+    elif name == "emit_stock_card":
+        return {"type": "stock_card", **args}
+    elif name == "emit_section":
+        return {"type": "section", **args}
+    elif name == "emit_recommendation":
+        return {"type": "recommendation", **args}
+    elif name == "emit_disclaimer":
+        return {"type": "disclaimer", "text": _DISCLAIMER_TEXT}
+    elif name == "emit_done":
+        return {"type": "done"}
+    return None
+
+
 async def run_lead_banker(
     *,
     user_message: str,
@@ -143,31 +167,47 @@ async def run_lead_banker(
         {"role": "user", "content": user_content},
     ]
 
-    kwargs: dict[str, Any] = {
-        "model": _MODEL,
-        "max_tokens": 4000,
-        "temperature": 0.3,
-        "system": system_blocks,
-        "tools": _EMIT_TOOLS,
-        "messages": messages,
-    }
-    resp = await c.messages.create(**kwargs)
+    for _turn in range(_MAX_TURNS):
+        kwargs: dict[str, Any] = {
+            "model": _MODEL,
+            "max_tokens": 4000,
+            "system": system_blocks,
+            "tools": _EMIT_TOOLS,
+            "messages": messages,
+        }
+        resp = await c.messages.create(**kwargs)
 
-    for block in resp.content:
-        if getattr(block, "type", None) != "tool_use":
-            continue
-        name = getattr(block, "name", "")
-        args = cast(dict[str, Any], getattr(block, "input", {})) or {}
-        if name == "emit_quick_take":
-            yield {"type": "quick_take", **args}
-        elif name == "emit_stock_card":
-            yield {"type": "stock_card", **args}
-        elif name == "emit_section":
-            yield {"type": "section", **args}
-        elif name == "emit_recommendation":
-            yield {"type": "recommendation", **args}
-        elif name == "emit_disclaimer":
-            yield {"type": "disclaimer", "text": _DISCLAIMER_TEXT}
-        elif name == "emit_done":
-            yield {"type": "done"}
+        # Collect tool_use blocks for reply and emit deltas
+        tool_use_blocks: list[Any] = []
+        tool_results: list[dict[str, Any]] = []
+        done = False
+
+        for block in resp.content:
+            if getattr(block, "type", None) != "tool_use":
+                continue
+            tool_use_blocks.append(block)
+            delta = _process_block(block)
+            if delta is not None:
+                if delta["type"] == "done":
+                    done = True
+                    yield delta
+                else:
+                    yield delta
+            # Always send back a success result so the model can continue
+            block_id = cast(str, getattr(block, "id", ""))
+            tool_results.append({
+                "type": "tool_result",
+                "tool_use_id": block_id,
+                "content": "ok",
+            })
+
+        if done or resp.stop_reason == "end_turn":
             return
+
+        if not tool_use_blocks:
+            # Model returned without calling any tools — stop to avoid infinite loop
+            return
+
+        # Append assistant turn + tool results and loop
+        messages.append({"role": "assistant", "content": resp.content})
+        messages.append({"role": "user", "content": tool_results})
