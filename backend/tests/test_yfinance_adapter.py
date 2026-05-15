@@ -250,6 +250,8 @@ def test_yf_symbol_for_crypto_appends_usd() -> None:
     assert _yf_symbol("ETH", "CRYPTO") == "ETH-USD"
     # Already in BTC-USD form: no double-suffix
     assert _yf_symbol("BTC-USD", "CRYPTO") == "BTC-USD"
+    # Non-USD pair still gets -USD appended (we only price against USD)
+    assert _yf_symbol("BTC-EUR", "CRYPTO") == "BTC-EUR-USD"
 
 
 @pytest.mark.asyncio

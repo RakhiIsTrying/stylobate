@@ -20,7 +20,7 @@ def _yf_symbol(ticker: str, market: str) -> str:
     unchanged. If the ticker already includes -USD, don't double it.
     """
     if market == "CRYPTO":
-        if "-" in ticker:
+        if ticker.endswith("-USD"):
             return ticker
         return f"{ticker}-USD"
     return ticker
