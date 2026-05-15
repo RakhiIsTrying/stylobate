@@ -7,7 +7,6 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
-from app.agents.fundamental import run_fundamental_analysis
 from app.agents.lead_banker import run_lead_banker
 from app.agents.ticker_resolver import resolve_ticker
 from app.core.auth import get_current_token, get_current_user
@@ -55,19 +54,12 @@ async def chat_stream(
             yield _sse("done", {"message_id": None, "chat_id": str(chat.id)})
             return
 
-        yield _sse("progress", {"step": "running_fundamentals", "ticker": resolution.ticker})
-        findings = await run_fundamental_analysis(
-            ticker=resolution.ticker,
-            brief=f"User asked: {req.content}",
-        )
-
-        yield _sse("progress", {"step": "synthesizing"})
+        yield _sse("progress", {"step": "running_specialists", "ticker": resolution.ticker})
 
         deltas: list[dict[str, Any]] = []
         async for d in run_lead_banker(
             user_message=req.content,
             resolution=resolution,
-            fundamental_findings=findings,
         ):
             deltas.append(d)
             if d.get("type") == "done":
@@ -77,7 +69,9 @@ async def chat_stream(
         v = validate_deltas(deltas)
         if not v.ok:
             log.warning("output_validator_failed", issues=v.issues)
-            yield _sse("error", {"message": "Output failed validation: " + "; ".join(v.issues[:3])})
+            yield _sse("error", {
+                "message": "Output failed validation: " + "; ".join(v.issues[:3]),
+            })
 
         asst_msg = await insert_message(
             sb, chat_id=chat.id, role="assistant", content=deltas,
