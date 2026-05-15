@@ -6,6 +6,7 @@ from pydantic import BaseModel
 
 from app.data.fred import (
     TimeSeriesPoint,
+    last_value,
 )
 from app.data.fred import (
     fetch_fred_series as _fetch_fred_series,
@@ -24,7 +25,8 @@ class RatesResult(BaseModel):
     # Generic fields populated for any market
     policy_rate: float | None = None       # FedFunds / Repo Rate / FedFunds (crypto)
     long_yield: float | None = None        # 10Y Treasury / 10Y G-Sec / 10Y Treasury
-    inflation: float | None = None         # CPI YoY (US/IN); None for crypto
+    # IN: CPI index level (not YoY). US/CRYPTO: not populated.
+    inflation: float | None = None
     # US-specific legacy fields (populated when market == "US"; None otherwise)
     fed_funds: float | None = None
     treasury_2y: float | None = None
@@ -46,25 +48,20 @@ _IN_RATE_SERIES: dict[str, str] = {
 }
 
 
-def _last_value(points: list[TimeSeriesPoint]) -> float | None:
-    for p in reversed(points):
-        if p.value is not None:
-            return p.value
-    return None
-
-
 async def _impl_get_rates(market: str = "US") -> RatesResult:
-    mkt = market if market in ("US", "IN", "CRYPTO") else "US"
+    if market not in ("US", "IN", "CRYPTO"):
+        raise ValueError(f"unknown market: {market!r}")
+    mkt = market
     if mkt == "IN":
         values: dict[str, float | None] = {}
         for key, series_id in _IN_RATE_SERIES.items():
             try:
                 pts = await _fetch_fred_series(series_id)
-                values[key] = _last_value(pts)
+                values[key] = last_value(pts)
             except Exception:
                 values[key] = None
         return RatesResult(
-            market="IN",
+            market=mkt,
             policy_rate=values.get("policy_rate"),
             long_yield=values.get("long_yield"),
             inflation=values.get("inflation"),
@@ -75,7 +72,7 @@ async def _impl_get_rates(market: str = "US") -> RatesResult:
     for key, series_id in _US_RATE_SERIES.items():
         try:
             pts = await _fetch_fred_series(series_id)
-            values_us[key] = _last_value(pts)
+            values_us[key] = last_value(pts)
         except Exception:
             values_us[key] = None
     return RatesResult(

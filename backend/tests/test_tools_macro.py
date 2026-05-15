@@ -10,19 +10,38 @@ from app.data.fred import TimeSeriesPoint
 
 @pytest.mark.asyncio
 async def test_get_rates_returns_typed_snapshot() -> None:
-    """Default market=US returns all four US rate fields populated."""
+    """Default market=US returns all four US rate fields populated, mapped correctly."""
+    per_series: dict[str, float] = {
+        "FEDFUNDS": 5.25,
+        "DGS2": 4.80,
+        "DGS10": 4.42,
+        "DFII10": 2.10,
+    }
+
     async def fake_fred(series_id: str) -> list[Any]:
         from datetime import date
 
         from app.data.fred import TimeSeriesPoint
-        return [TimeSeriesPoint(date=date(2026, 5, 14), value=4.42)]
+        return [TimeSeriesPoint(date=date(2026, 5, 14), value=per_series[series_id])]
 
     with patch("app.tools.macro._fetch_fred_series", side_effect=fake_fred):
         from app.tools.macro import RatesResult, get_rates_tool
         r = cast(RatesResult, await get_rates_tool.impl())
     assert r.market == "US"
-    assert r.fed_funds == 4.42
+    assert r.fed_funds == 5.25
+    assert r.treasury_2y == 4.80
     assert r.treasury_10y == 4.42
+    assert r.real_10y == 2.10
+    # Generic-field aliases for US: policy_rate echoes fed_funds, long_yield echoes treasury_10y
+    assert r.policy_rate == 5.25
+    assert r.long_yield == 4.42
+
+
+@pytest.mark.asyncio
+async def test_get_rates_unknown_market_raises() -> None:
+    from app.tools.macro import get_rates_tool
+    with pytest.raises(ValueError, match="unknown market"):
+        await get_rates_tool.impl(market="EU")
 
 
 @pytest.mark.asyncio

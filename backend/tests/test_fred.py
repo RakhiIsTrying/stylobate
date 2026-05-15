@@ -44,30 +44,6 @@ async def test_fetch_fred_series_handles_missing_values() -> None:
 
 
 @pytest.mark.asyncio
-async def test_fetch_rates_snapshot_calls_four_series() -> None:
-    """fetch_rates_snapshot grabs FEDFUNDS, DGS2, DGS10, DFII10 and returns latest values."""
-    with respx.mock(base_url="https://fred.stlouisfed.org") as mock:
-        mock.get("/graph/fredgraph.csv", params={"id": "FEDFUNDS"}).respond(
-            200, text="DATE,FEDFUNDS\n2026-05-01,5.25\n2026-05-14,5.25\n",
-        )
-        mock.get("/graph/fredgraph.csv", params={"id": "DGS2"}).respond(
-            200, text="DATE,DGS2\n2026-05-14,4.87\n",
-        )
-        mock.get("/graph/fredgraph.csv", params={"id": "DGS10"}).respond(
-            200, text="DATE,DGS10\n2026-05-14,4.42\n",
-        )
-        mock.get("/graph/fredgraph.csv", params={"id": "DFII10"}).respond(
-            200, text="DATE,DFII10\n2026-05-14,2.10\n",
-        )
-        from app.data.fred import fetch_rates_snapshot
-        snap = await fetch_rates_snapshot()
-    assert snap["fed_funds"] == 5.25
-    assert snap["treasury_2y"] == 4.87
-    assert snap["treasury_10y"] == 4.42
-    assert snap["real_10y"] == 2.10
-
-
-@pytest.mark.asyncio
 async def test_fetch_fred_series_propagates_http_error() -> None:
     with respx.mock(base_url="https://fred.stlouisfed.org") as mock:
         mock.get("/graph/fredgraph.csv", params={"id": "BADID"}).respond(404, text="Not Found")

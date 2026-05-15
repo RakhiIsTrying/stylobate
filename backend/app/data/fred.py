@@ -55,34 +55,9 @@ async def fetch_fred_series(series_id: str) -> list[TimeSeriesPoint]:
     return out
 
 
-def _last_value(points: list[TimeSeriesPoint]) -> float | None:
+def last_value(points: list[TimeSeriesPoint]) -> float | None:
     """Last non-null value in the series."""
     for p in reversed(points):
         if p.value is not None:
             return p.value
     return None
-
-
-async def fetch_rates_snapshot() -> dict[str, float | None]:
-    """Latest values of the key US rates.
-
-    Series IDs:
-    - FEDFUNDS: Effective Fed Funds Rate
-    - DGS2: 2-Year Treasury Constant Maturity Rate
-    - DGS10: 10-Year Treasury Constant Maturity Rate
-    - DFII10: 10-Year TIPS (real yield)
-    """
-    series = {
-        "fed_funds": "FEDFUNDS",
-        "treasury_2y": "DGS2",
-        "treasury_10y": "DGS10",
-        "real_10y": "DFII10",
-    }
-    out: dict[str, float | None] = {}
-    for key, series_id in series.items():
-        try:
-            points = await fetch_fred_series(series_id)
-            out[key] = _last_value(points)
-        except FREDError:
-            out[key] = None
-    return out
