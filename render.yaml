@@ -1,0 +1,45 @@
+# Render Blueprint for Stylobate backend.
+# Import this repo at https://render.com/new/blueprint → connect GitHub → pick repo.
+# Render reads this file and proposes the service below.
+# After deploy, fill the secret env vars in the Render dashboard (ANTHROPIC_API_KEY).
+
+services:
+  - type: web
+    name: stylobate-backend
+    runtime: python
+    plan: free
+    region: oregon
+    rootDir: backend
+    branch: main
+    autoDeploy: true
+    buildCommand: pip install uv && uv sync --frozen --no-dev
+    startCommand: uv run uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /healthz
+    envVars:
+      # Python version (also pinned in backend/.python-version)
+      - key: PYTHON_VERSION
+        value: "3.11.15"
+
+      # Supabase — these match what's already in Vercel for the frontend.
+      # Anon key is public-safe (same one the browser uses).
+      - key: SUPABASE_URL
+        value: https://pvjamgocmmldfpzzswaj.supabase.co
+      - key: SUPABASE_ANON_KEY
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2amFtZ29jbW1sZGZwenpzd2FqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NjU0NTksImV4cCI6MjA5NDM0MTQ1OX0.svbxqZtGc5Wp0TZXijknfktF57G4ctspvLb3HToHcu8
+
+      # These two are optional in Phase 0/1 (JWKS auth + user-scoped writes).
+      # Render's "sync: false" prompts the user to fill them in the dashboard.
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        value: ""
+      - key: SUPABASE_JWT_SECRET
+        value: ""
+
+      # CORS — allow local dev + the deployed Vercel URL.
+      - key: BACKEND_CORS_ORIGINS
+        value: https://stylobate.vercel.app,http://localhost:3000
+
+      # Anthropic API key (secret). Marked sync: false so Render doesn't
+      # commit it; you paste the sk-ant-... in the Render dashboard after
+      # the first deploy creates the service.
+      - key: ANTHROPIC_API_KEY
+        sync: false
