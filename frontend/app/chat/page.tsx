@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { ChatThread } from "@/components/chat-thread";
@@ -76,6 +77,14 @@ export default function ChatPage() {
     <main className="flex h-screen flex-col">
       <header className="flex items-center justify-between border-b px-4 py-3">
         <h1 className="text-sm font-semibold">Stylobate</h1>
+        <nav className="flex gap-4 text-sm">
+          <Link href="/chat" className="font-semibold">
+            Chat
+          </Link>
+          <Link href="/portfolio" className="text-muted-foreground hover:text-foreground">
+            Portfolio
+          </Link>
+        </nav>
       </header>
       <div className="flex-1 overflow-y-auto">
         <ChatThread messages={messages} />
