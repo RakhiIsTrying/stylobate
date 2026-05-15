@@ -3,15 +3,13 @@ from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from typing import Any
 
-from pydantic import BaseModel
-
 
 @dataclass
 class Tool:
     name: str
     description: str
     input_schema: dict[str, Any]
-    impl: Callable[..., Awaitable[BaseModel]]
+    impl: Callable[..., Awaitable[Any]]
 
     @property
     def schema(self) -> dict[str, Any]:
