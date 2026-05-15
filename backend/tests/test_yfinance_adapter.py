@@ -135,3 +135,98 @@ async def test_fetch_price_history_empty_returns_empty_list() -> None:
         from app.data.yfinance_adapter import fetch_price_history
         bars = await fetch_price_history("X")
     assert bars == []
+
+
+@pytest.mark.asyncio
+async def test_fetch_news_returns_typed_items() -> None:
+    raw_news = [
+        {
+            "uuid": "abc",
+            "title": "Apple unveils new iPhone",
+            "publisher": "Reuters",
+            "link": "https://reuters.com/aapl-iphone",
+            "providerPublishTime": 1747500000,  # 2025-05-17 ~16:00 UTC
+            "type": "STORY",
+            "relatedTickers": ["AAPL"],
+        },
+        {
+            "uuid": "def",
+            "title": "AAPL Q2 earnings beat",
+            "publisher": "Bloomberg",
+            "link": "https://bloomberg.com/aapl-q2",
+            "providerPublishTime": 1747600000,
+            "summary": "Apple reported Q2 EPS above consensus.",
+            "relatedTickers": ["AAPL"],
+        },
+    ]
+    mock_ticker = MagicMock()
+    mock_ticker.news = raw_news
+    with patch("app.data.yfinance_adapter._make_ticker", return_value=mock_ticker):
+        from app.data.yfinance_adapter import fetch_news_for_ticker
+        items = await fetch_news_for_ticker("AAPL", limit=5)
+    assert len(items) == 2
+    assert items[0].title == "Apple unveils new iPhone"
+    assert items[0].publisher == "Reuters"
+    assert items[0].url == "https://reuters.com/aapl-iphone"
+    assert items[1].summary == "Apple reported Q2 EPS above consensus."
+
+
+@pytest.mark.asyncio
+async def test_fetch_news_respects_limit() -> None:
+    raw = [
+        {"uuid": f"u{i}", "title": f"News {i}", "publisher": "X",
+         "link": "http://x", "providerPublishTime": 1747000000 + i,
+         "relatedTickers": ["AAPL"]}
+        for i in range(20)
+    ]
+    mock_ticker = MagicMock()
+    mock_ticker.news = raw
+    with patch("app.data.yfinance_adapter._make_ticker", return_value=mock_ticker):
+        from app.data.yfinance_adapter import fetch_news_for_ticker
+        items = await fetch_news_for_ticker("AAPL", limit=5)
+    assert len(items) == 5
+
+
+@pytest.mark.asyncio
+async def test_fetch_news_handles_empty_list() -> None:
+    mock_ticker = MagicMock()
+    mock_ticker.news = []
+    with patch("app.data.yfinance_adapter._make_ticker", return_value=mock_ticker):
+        from app.data.yfinance_adapter import fetch_news_for_ticker
+        items = await fetch_news_for_ticker("X")
+    assert items == []
+
+
+@pytest.mark.asyncio
+async def test_fetch_sector_etf_returns_computes_period_returns() -> None:
+    """fetch_sector_etf_returns calls fetch_price_history for each sector ETF
+    and returns 1m % return based on first vs last close."""
+    from datetime import date
+
+    from app.data.yfinance_adapter import Bar
+
+    def _bars_for(open_price: float, close_price: float) -> list[Bar]:
+        return [
+            Bar(date=date(2026, 4, 1), open=open_price, high=open_price + 1,
+                low=open_price - 1, close=open_price, volume=10_000),
+            Bar(date=date(2026, 5, 1), open=close_price - 1, high=close_price,
+                low=close_price - 2, close=close_price, volume=10_000),
+        ]
+
+    # Tech up 10%, Financials flat, Healthcare down 5%
+    sector_data = {
+        "XLK": _bars_for(100.0, 110.0),  # +10%
+        "XLF": _bars_for(50.0, 50.0),    # 0%
+        "XLV": _bars_for(80.0, 76.0),    # -5%
+    }
+
+    async def fake_fetch(ticker: str, period: str = "1mo", interval: str = "1d") -> list[Bar]:
+        return sector_data.get(ticker, [])
+
+    with patch("app.data.yfinance_adapter.fetch_price_history", side_effect=fake_fetch):
+        from app.data.yfinance_adapter import fetch_sector_etf_returns
+        returns = await fetch_sector_etf_returns(period="1mo", tickers=["XLK", "XLF", "XLV"])
+
+    assert returns["XLK"] == pytest.approx(0.10, rel=0.01)
+    assert returns["XLF"] == pytest.approx(0.0, abs=0.001)
+    assert returns["XLV"] == pytest.approx(-0.05, rel=0.01)

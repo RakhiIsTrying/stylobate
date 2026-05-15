@@ -1,6 +1,6 @@
 # backend/app/data/yfinance_adapter.py
 import asyncio
-from datetime import date
+from datetime import UTC, date, datetime
 from typing import Any
 
 import yfinance as yf
@@ -52,6 +52,15 @@ class Bar(BaseModel):
     low: float
     close: float
     volume: int
+
+
+class NewsItem(BaseModel):
+    title: str
+    publisher: str
+    url: str
+    published_at: datetime
+    summary: str | None = None
+    related_tickers: list[str] = []
 
 
 def _period_label(ts: Any) -> str:
@@ -200,3 +209,71 @@ async def fetch_price_history(
         return out
 
     return await asyncio.to_thread(_sync)
+
+
+async def fetch_news_for_ticker(ticker: str, limit: int = 10) -> list[NewsItem]:
+    """Recent news headlines for the ticker, via Yahoo Finance.
+
+    yfinance returns at most ~20 recent items per ticker; we slice to `limit`.
+    """
+
+    def _sync() -> list[NewsItem]:
+        t = _make_ticker(ticker)
+        raw = getattr(t, "news", None) or []
+        out: list[NewsItem] = []
+        for item in raw[:limit]:
+            ts = item.get("providerPublishTime")
+            if ts is None:
+                continue
+            try:
+                pub_at = datetime.fromtimestamp(int(ts), tz=UTC)
+            except (TypeError, ValueError):
+                continue
+            out.append(
+                NewsItem(
+                    title=str(item.get("title", "")),
+                    publisher=str(item.get("publisher", "")),
+                    url=str(item.get("link", "")),
+                    published_at=pub_at,
+                    summary=item.get("summary"),
+                    related_tickers=item.get("relatedTickers", []) or [],
+                )
+            )
+        return out
+
+    return await asyncio.to_thread(_sync)
+
+
+# Standard SPDR sector ETFs covering the S&P 500
+SPDR_SECTOR_ETFS: dict[str, str] = {
+    "XLK": "technology",
+    "XLF": "financials",
+    "XLV": "healthcare",
+    "XLE": "energy",
+    "XLY": "consumer_discretionary",
+    "XLP": "consumer_staples",
+    "XLI": "industrials",
+    "XLB": "materials",
+    "XLU": "utilities",
+    "XLRE": "real_estate",
+    "XLC": "communication_services",
+}
+
+
+async def fetch_sector_etf_returns(
+    period: str = "1mo",
+    tickers: list[str] | None = None,
+) -> dict[str, float]:
+    """Period return for each sector ETF: (last_close - first_close) / first_close."""
+    syms = tickers if tickers is not None else list(SPDR_SECTOR_ETFS.keys())
+    out: dict[str, float] = {}
+    for sym in syms:
+        bars = await fetch_price_history(sym, period=period, interval="1d")
+        if len(bars) < 2:
+            continue
+        first = bars[0].close
+        last = bars[-1].close
+        if first == 0:
+            continue
+        out[sym] = (last - first) / first
+    return out
