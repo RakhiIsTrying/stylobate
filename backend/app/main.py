@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import get_settings
 from app.core.logging import configure_logging
 from app.db.pool import close_pool
-from app.routes import chat, health, portfolios, prices, resolve, watchlists
+from app.routes import chat, chat_portfolio, health, portfolios, prices, resolve, watchlists
 
 
 @asynccontextmanager
@@ -32,6 +32,7 @@ def create_app() -> FastAPI:
     )
     app.include_router(health.router)
     app.include_router(chat.router)
+    app.include_router(chat_portfolio.router)
     app.include_router(resolve.router)
     app.include_router(portfolios.router)
     app.include_router(watchlists.router)
