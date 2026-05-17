@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import json
 from collections.abc import AsyncIterator
 from typing import Any
@@ -9,6 +10,7 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
 from app.agents.portfolio_strategist import run_portfolio_strategist
+from app.agents.risk_manager import run_risk_manager
 from app.core.auth import get_current_user
 
 router = APIRouter(tags=["chat-portfolio"])
@@ -106,7 +108,93 @@ def _render_rebalance_section(rebalance: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-async def _stream_findings(findings: dict[str, Any]) -> AsyncIterator[bytes]:
+def _render_concentration_section(flags: list[dict[str, Any]]) -> str:
+    if not flags:
+        return "_No concentration flags. Largest single position is under 10% of the portfolio._"
+    lines: list[str] = []
+    for f in flags:
+        weight = f.get("weight_pct", 0) * 100
+        severity = f.get("severity", "warn")
+        marker = "🔴" if severity == "critical" else "🟡"
+        lines.append(f"- {marker} **{f.get('ticker')}**: {weight:.1f}% — {severity}")
+    return "\n".join(lines)
+
+
+def _render_var_section(var_by_cohort: list[dict[str, Any]]) -> str:
+    if not var_by_cohort:
+        return "_VaR unavailable._"
+    lines: list[str] = []
+    for v in var_by_cohort:
+        cohort = v.get("cohort", ["?", "?"])
+        label = _cohort_label(cohort)
+        conf = v.get("confidence", 0.95)
+        horizon = v.get("horizon_days", 10)
+        if v.get("insufficient_history") or v.get("var_pct") is None:
+            lines.append(f"- **{label}** — insufficient history (need ≥100 daily closes)")
+            continue
+        pct = v["var_pct"] * 100
+        native = v.get("var_native")
+        currency = cohort[0]
+        native_str = (
+            _format_currency(abs(native), currency) if native is not None else "—"
+        )
+        lines.append(
+            f"- **{label}** — {int(conf * 100)}% / {horizon}-day VaR: "
+            f"{pct:+.1f}% (≈ {native_str} loss)"
+        )
+    return "\n".join(lines)
+
+
+def _render_correlations_section(corr: dict[str, Any] | None) -> str:
+    if not corr or not corr.get("tickers"):
+        return "_Not enough positions with overlapping history to compute correlations._"
+    tickers = corr["tickers"]
+    matrix = corr["matrix"]
+    excluded = corr.get("excluded", [])
+    if len(tickers) < 2:
+        return "_Need at least 2 positions with overlapping history._"
+    # Top-5 highest absolute correlations (excluding diagonal)
+    pairs: list[tuple[str, str, float]] = []
+    for i, ti in enumerate(tickers):
+        for j, tj in enumerate(tickers):
+            if i >= j:
+                continue
+            pairs.append((ti, tj, matrix[i][j]))
+    pairs.sort(key=lambda p: -abs(p[2]))
+    lines: list[str] = ["**Top correlations:**"]
+    for ti, tj, r in pairs[:5]:
+        lines.append(f"- {ti} ↔ {tj}: {r:+.2f}")
+    if excluded:
+        lines.append(f"_Excluded (insufficient history): {', '.join(excluded)}_")
+    return "\n".join(lines)
+
+
+def _render_stress_section(stress_results: list[dict[str, Any]]) -> str:
+    if not stress_results:
+        return "_No stress test results._"
+    lines: list[str] = []
+    for s in stress_results:
+        scenario = s.get("scenario", "?")
+        total = s.get("total_delta_usd", 0)
+        per_pos = s.get("per_position", [])
+        worst = (
+            min(per_pos, key=lambda p: p.get("delta_native", 0))
+            if per_pos else None
+        )
+        worst_str = ""
+        if worst:
+            worst_str = (
+                f" — worst hit: **{worst['ticker']}** "
+                f"({worst.get('delta_pct', 0):+.1f}%)"
+            )
+        lines.append(
+            f"- **{scenario}**: portfolio Δ ≈ "
+            f"{_format_currency(total, 'USD')} (USD-eq){worst_str}"
+        )
+    return "\n".join(lines)
+
+
+async def _stream_findings(combined: dict[str, Any]) -> AsyncIterator[bytes]:
     """Yield SSE events: progress, delta(section)*, done."""
     yield (
         b"event: progress\ndata: "
@@ -114,81 +202,96 @@ async def _stream_findings(findings: dict[str, Any]) -> AsyncIterator[bytes]:
         + b"\n\n"
     )
 
-    cohorts = findings.get("cohorts", [])
-    if not cohorts:
+    strategist = combined.get("strategist") or {}
+    risk = combined.get("risk") or {}
+    errors = combined.get("errors", {})
+
+    cohorts = strategist.get("cohorts", [])
+    if not cohorts and not risk.get("concentration") and not risk.get("stress_results"):
+        msg = (strategist.get("notes") or risk.get("notes") or ["No portfolio data."])[0]
         yield (
             b"event: delta\ndata: "
-            + json.dumps(
-                {
-                    "type": "section",
-                    "title": "Portfolio",
-                    "markdown": findings.get("notes", ["No portfolio data."])[0],
-                    "citations": [],
-                }
-            ).encode()
+            + json.dumps({"type": "section", "title": "Portfolio",
+                          "markdown": msg, "citations": []}).encode()
             + b"\n\n"
         )
     else:
-        yield (
-            b"event: delta\ndata: "
-            + json.dumps(
-                {
-                    "type": "section",
-                    "title": "Portfolio Snapshot",
-                    "markdown": _render_snapshot_section(cohorts),
-                    "citations": [],
-                }
-            ).encode()
-            + b"\n\n"
-        )
-        yield (
-            b"event: delta\ndata: "
-            + json.dumps(
-                {
-                    "type": "section",
-                    "title": "Returns vs Benchmark",
-                    "markdown": _render_returns_section(cohorts),
-                    "citations": [],
-                }
-            ).encode()
-            + b"\n\n"
-        )
-        yield (
-            b"event: delta\ndata: "
-            + json.dumps(
-                {
-                    "type": "section",
-                    "title": "Risk Metrics",
-                    "markdown": _render_risk_section(cohorts),
-                    "citations": [],
-                }
-            ).encode()
-            + b"\n\n"
-        )
-        if findings.get("rebalance"):
+        if cohorts:
             yield (
                 b"event: delta\ndata: "
-                + json.dumps(
-                    {
-                        "type": "section",
-                        "title": "Rebalance Plan",
-                        "markdown": _render_rebalance_section(findings["rebalance"]),
-                        "citations": [],
-                    }
-                ).encode()
+                + json.dumps({"type": "section", "title": "Portfolio Snapshot",
+                              "markdown": _render_snapshot_section(cohorts),
+                              "citations": []}).encode()
                 + b"\n\n"
             )
-    if findings.get("notes"):
+            yield (
+                b"event: delta\ndata: "
+                + json.dumps({"type": "section", "title": "Returns vs Benchmark",
+                              "markdown": _render_returns_section(cohorts),
+                              "citations": []}).encode()
+                + b"\n\n"
+            )
+            yield (
+                b"event: delta\ndata: "
+                + json.dumps({"type": "section", "title": "Risk Metrics",
+                              "markdown": _render_risk_section(cohorts),
+                              "citations": []}).encode()
+                + b"\n\n"
+            )
+        if risk:
+            yield (
+                b"event: delta\ndata: "
+                + json.dumps({"type": "section", "title": "Concentration",
+                              "markdown": _render_concentration_section(
+                                  risk.get("concentration", [])),
+                              "citations": []}).encode()
+                + b"\n\n"
+            )
+            yield (
+                b"event: delta\ndata: "
+                + json.dumps({"type": "section", "title": "Value at Risk",
+                              "markdown": _render_var_section(
+                                  risk.get("var_by_cohort", [])),
+                              "citations": []}).encode()
+                + b"\n\n"
+            )
+            yield (
+                b"event: delta\ndata: "
+                + json.dumps({"type": "section", "title": "Correlations",
+                              "markdown": _render_correlations_section(
+                                  risk.get("correlations")),
+                              "citations": []}).encode()
+                + b"\n\n"
+            )
+            yield (
+                b"event: delta\ndata: "
+                + json.dumps({"type": "section", "title": "Stress Tests",
+                              "markdown": _render_stress_section(
+                                  risk.get("stress_results", [])),
+                              "citations": []}).encode()
+                + b"\n\n"
+            )
+        if strategist.get("rebalance"):
+            yield (
+                b"event: delta\ndata: "
+                + json.dumps({"type": "section", "title": "Rebalance Plan",
+                              "markdown": _render_rebalance_section(strategist["rebalance"]),
+                              "citations": []}).encode()
+                + b"\n\n"
+            )
+    combined_notes: list[str] = []
+    if strategist.get("notes"):
+        combined_notes.extend(strategist["notes"])
+    if risk.get("notes"):
+        combined_notes.extend(risk["notes"])
+    for source, err in errors.items():
+        combined_notes.append(f"{source.capitalize()} analysis unavailable: {err}")
+    if combined_notes:
         yield (
             b"event: delta\ndata: "
-            + json.dumps(
-                {
-                    "type": "section",
-                    "title": "Notes",
-                    "markdown": "\n".join(f"- {n}" for n in findings["notes"]),
-                    "citations": [],
-                }
-            ).encode()
+            + json.dumps({"type": "section", "title": "Notes",
+                          "markdown": "\n".join(f"- {n}" for n in combined_notes),
+                          "citations": []}).encode()
             + b"\n\n"
         )
     yield b"event: done\ndata: {}\n\n"
@@ -199,10 +302,25 @@ async def chat_portfolio(
     req: ChatPortfolioRequest,
     user: dict[str, Any] = Depends(get_current_user),
 ) -> StreamingResponse:
-    findings = await run_portfolio_strategist(
-        user_id=user["sub"],
-        portfolio_id=req.portfolio_id,
-        brief=req.message or "Snapshot of my current portfolio.",
-        target_alloc=req.target_alloc,
+    user_id = user["sub"]
+    brief = req.message or "Snapshot of my current portfolio."
+    results = await asyncio.gather(
+        run_portfolio_strategist(
+            user_id=user_id, portfolio_id=req.portfolio_id,
+            brief=brief, target_alloc=req.target_alloc,
+        ),
+        run_risk_manager(
+            user_id=user_id, portfolio_id=req.portfolio_id, brief=brief,
+        ),
+        return_exceptions=True,
     )
-    return StreamingResponse(_stream_findings(findings), media_type="text/event-stream")
+    combined: dict[str, Any] = {"errors": {}}
+    if isinstance(results[0], BaseException):
+        combined["errors"]["strategist"] = str(results[0])
+    else:
+        combined["strategist"] = results[0]
+    if isinstance(results[1], BaseException):
+        combined["errors"]["risk"] = str(results[1])
+    else:
+        combined["risk"] = results[1]
+    return StreamingResponse(_stream_findings(combined), media_type="text/event-stream")
