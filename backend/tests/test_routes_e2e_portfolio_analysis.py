@@ -22,11 +22,33 @@ def _async_cm(value: Any) -> Any:
     return _CM()
 
 
+def _msg(*blocks: dict[str, Any], stop_reason: str = "tool_use") -> Any:
+    m = MagicMock()
+    m.content = list(blocks)
+    m.stop_reason = stop_reason
+    m.usage = MagicMock(input_tokens=10, output_tokens=20,
+                        cache_read_input_tokens=0, cache_creation_input_tokens=0)
+    return m
+
+
+def _tu(name: str, args: dict[str, Any], tid: str) -> dict[str, Any]:
+    return {"type": "tool_use", "id": tid, "name": name, "input": args}
+
+
 @pytest.mark.asyncio
-async def test_chat_stream_portfolio_end_to_end(
+async def test_chat_stream_portfolio_end_to_end_with_risk(
     client: AsyncClient, make_token: Callable[..., str]
 ) -> None:
-    """Portfolio query → Lead Banker dispatch → strategist → emit sections."""
+    """Portfolio query → LB → dispatch_portfolio_analysts → both specialists → emit.
+
+    Note: deviates from plan's separate-`get_client`-per-agent patches because
+    lead_banker forwards its own `client` to the sub-agents (so module-level
+    `get_client` patches are bypassed). Instead, we monkeypatch
+    `run_portfolio_strategist` and `run_risk_manager` directly at the
+    lead_banker module — the same pattern used in
+    `test_lead_banker_portfolio_mode.py`. The LB mock supplies the two LB
+    turns (dispatch + emit_*).
+    """
     conn = MagicMock()
     conn.fetch = AsyncMock(return_value=[
         {"id": UUID("00000000-0000-0000-0000-0000000000a1"),
@@ -38,25 +60,34 @@ async def test_chat_stream_portfolio_end_to_end(
 
     fake_prices: dict[tuple[str, str], Price] = {
         ("AAPL", "US"): Price(ticker="AAPL", market="US", price=200.0,
-                              currency="USD", as_of=datetime(2026, 5, 15)),
+                              currency="USD", as_of=datetime(2026, 5, 17)),
     }
 
-    # Mock the LLM responses for Lead Banker
-    def _msg(*blocks: dict[str, Any], stop_reason: str = "tool_use") -> Any:
-        m = MagicMock()
-        m.content = list(blocks)
-        m.stop_reason = stop_reason
-        m.usage = MagicMock(input_tokens=10, output_tokens=20,
-                            cache_read_input_tokens=0, cache_creation_input_tokens=0)
-        return m
+    # Lead Banker mock: turn 1 dispatches both analysts; turn 2 emits sections.
+    lb_client = MagicMock()
+    lb_client.messages.create = AsyncMock(side_effect=[
+        _msg(_tu("dispatch_portfolio_analysts",
+                 {"specialists": ["strategist", "risk"], "brief": "Snapshot"},
+                 "d1"), stop_reason="tool_use"),
+        _msg(
+            _tu("emit_quick_take",
+                {"signal": "hold", "qualifier": "Diversified."}, "1"),
+            _tu("emit_section", {"title": "Portfolio Snapshot",
+                                  "markdown": "USD: $10k +33%", "citations": []}, "2"),
+            _tu("emit_section", {"title": "Concentration",
+                                  "markdown": "AAPL 100% — critical",
+                                  "citations": []}, "3"),
+            _tu("emit_section", {"title": "Risks", "markdown": "concentrated.",
+                                  "citations": []}, "4"),
+            _tu("emit_disclaimer", {}, "5"),
+            _tu("emit_done", {}, "6"),
+            stop_reason="end_turn",
+        ),
+    ])
 
-    def _tu(name: str, args: dict[str, Any], tid: str) -> dict[str, Any]:
-        return {"type": "tool_use", "id": tid, "name": name, "input": args}
-
-    # Strategist sub-agent: get_holdings → submit
-    strategist_responses = [
-        _msg(_tu("get_holdings", {}, "g1")),
-        _msg(_tu("submit_portfolio_findings", {
+    # Canned sub-agent findings — replace the real Sonnet loops entirely.
+    async def fake_strategist(**_kwargs: Any) -> dict[str, Any]:
+        return {
             "portfolio_id": PID,
             "portfolio_name": "Test",
             "cohorts": [{
@@ -70,50 +101,45 @@ async def test_chat_stream_portfolio_end_to_end(
             }],
             "rebalance": None, "notes": [], "citations": [],
             "confidence": 0.85,
-        }, "s1"), stop_reason="tool_use"),
-    ]
-    # Lead Banker: dispatch_portfolio_strategist → emit_* → done
-    lb_responses = [
-        _msg(_tu("dispatch_portfolio_strategist",
-                 {"brief": "Snapshot"}, "d1"), stop_reason="tool_use"),
-        _msg(
-            _tu("emit_quick_take", {"signal": "hold", "qualifier": "Diversified."}, "1"),
-            _tu("emit_section", {"title": "Portfolio Snapshot",
-                                  "markdown": "USD: $10k +33%", "citations": []}, "2"),
-            _tu("emit_section", {"title": "Risks", "markdown": "concentrated.",
-                                  "citations": []}, "3"),
-            _tu("emit_disclaimer", {}, "4"),
-            _tu("emit_done", {}, "5"),
-            stop_reason="end_turn",
-        ),
-    ]
-    # Call order: LB turn 1 (dispatch) → strategist turn 1 (get_holdings)
-    # → strategist turn 2 (submit) → LB turn 2 (emit_*)
-    all_responses = [
-        lb_responses[0],
-        strategist_responses[0],
-        strategist_responses[1],
-        lb_responses[1],
-    ]
+        }
 
-    fake_client = MagicMock()
-    fake_client.messages.create = AsyncMock(side_effect=all_responses)
+    async def fake_risk(**_kwargs: Any) -> dict[str, Any]:
+        return {
+            "portfolio_id": PID,
+            "portfolio_name": "Test",
+            "concentration": [{"position_id": None, "ticker": "AAPL",
+                               "weight_pct": 1.0, "threshold_pct": 0.10,
+                               "severity": "critical"}],
+            "var_by_cohort": [],
+            "correlations": None,
+            "stress_results": [],
+            "notes": [], "citations": [], "confidence": 0.85,
+        }
 
-    with patch("app.db.portfolios.acquire_conn", return_value=_async_cm(conn)), \
-         patch("app.tools.portfolio.get_prices", AsyncMock(return_value=fake_prices)), \
-         patch("app.tools.portfolio._fetch_price_history_for_position",
-               AsyncMock(return_value=[])), \
-         patch("app.data.benchmarks.get_benchmark_history",
-               AsyncMock(return_value=[])), \
-         patch("app.routes.chat.get_client", return_value=fake_client), \
-         patch("app.agents.portfolio_strategist.get_client", return_value=fake_client):
-        r = await client.post(
-            "/chat/stream",
-            json={"content": "How is my portfolio doing?"},
-            headers={"Authorization": f"Bearer {make_token(TEST_USER_ID)}"},
-        )
+    with pytest.MonkeyPatch.context() as mp:
+        from app.agents import lead_banker as lb
+        mp.setattr(lb, "run_portfolio_strategist", fake_strategist)
+        mp.setattr(lb, "run_risk_manager", fake_risk)
+        with patch("app.db.portfolios.acquire_conn", return_value=_async_cm(conn)), \
+             patch("app.tools.portfolio.get_prices",
+                   AsyncMock(return_value=fake_prices)), \
+             patch("app.tools.portfolio._fetch_price_history_for_position",
+                   AsyncMock(return_value=[])), \
+             patch("app.tools.risk._fetch_price_history",
+                   AsyncMock(return_value=[])), \
+             patch("app.data.benchmarks.get_benchmark_history",
+                   AsyncMock(return_value=[])), \
+             patch("app.tools.risk.get_usdinr",
+                   AsyncMock(return_value=None)), \
+             patch("app.routes.chat.get_client", return_value=lb_client):
+            r = await client.post(
+                "/chat/stream",
+                json={"content": "How is my portfolio doing?"},
+                headers={"Authorization": f"Bearer {make_token(TEST_USER_ID)}"},
+            )
 
     assert r.status_code == 200
     body = r.text
     assert "Portfolio Snapshot" in body
+    assert "Concentration" in body
     assert "event: done" in body
