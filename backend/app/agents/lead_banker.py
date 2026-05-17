@@ -11,6 +11,7 @@ from app.agents.fundamental import run_fundamental_analysis
 from app.agents.macro import run_macro_analysis
 from app.agents.news_sentiment import run_news_analysis
 from app.agents.portfolio_strategist import run_portfolio_strategist
+from app.agents.risk_manager import run_risk_manager
 from app.agents.technical import run_technical_analysis
 from app.agents.ticker_resolver import TickerResolution
 from app.core.anthropic_client import get_client
@@ -49,27 +50,31 @@ _DISPATCH_TOOL: dict[str, Any] = {
     },
 }
 
-dispatch_portfolio_strategist_tool = Tool(
-    name="dispatch_portfolio_strategist",
+dispatch_portfolio_analysts_tool = Tool(
+    name="dispatch_portfolio_analysts",
     description=(
-        "Run the Portfolio Strategist on the user's current portfolio. "
-        "Use this ONLY when portfolio_mode is set. Pass a brief describing what "
-        "they want (snapshot, rebalance, comparison). If they specified a target "
-        "allocation, pass it as target_alloc dict."
+        "Run both portfolio analysts in parallel. Specialists: "
+        "'strategist' (snapshot, returns, rebalance) and 'risk' "
+        "(concentration, VaR, correlations, stress tests). "
+        "Pass both unless the user explicitly asks for only one."
     ),
     input_schema={
         "type": "object",
         "properties": {
+            "specialists": {
+                "type": "array",
+                "items": {"type": "string", "enum": ["strategist", "risk"]},
+                "default": ["strategist", "risk"],
+            },
             "brief": {"type": "string"},
             "target_alloc": {
                 "type": "object",
-                "description": "cohort_key (e.g. 'USD:equity_etf') -> fraction",
                 "additionalProperties": {"type": "number"},
             },
         },
         "required": ["brief"],
     },
-    impl=None,  # type: ignore[arg-type]  # marker tool; handled inline
+    impl=None,  # type: ignore[arg-type]  # handled inline
 )
 
 _EMIT_TOOLS: list[dict[str, Any]] = [
@@ -250,10 +255,10 @@ async def run_lead_banker(
         user_content = (
             f"User question: {user_message}\n\n"
             "Portfolio mode is active — analyze the user's portfolio. "
-            "Call dispatch_portfolio_strategist exactly once with a brief, "
-            "then emit_* the response. Emit order: quick_take → "
-            "(skip stock_card — no single ticker) → sections → recommendation "
-            "(only if rebalance was requested) → disclaimer → done.\n\n"
+            "Call dispatch_portfolio_analysts exactly once with specialists "
+            "(default ['strategist', 'risk']) and a brief. You'll receive "
+            "both findings dicts. Synthesize via emit_* tools per the prompt's "
+            "ordering for portfolio mode.\n\n"
             "Do NOT call dispatch_specialists in portfolio mode."
         )
     else:
@@ -266,9 +271,9 @@ async def run_lead_banker(
     tools_list: list[dict[str, Any]] = [_DISPATCH_TOOL, *_EMIT_TOOLS]
     if portfolio_mode:
         tools_list.append({
-            "name": dispatch_portfolio_strategist_tool.name,
-            "description": dispatch_portfolio_strategist_tool.description,
-            "input_schema": dispatch_portfolio_strategist_tool.input_schema,
+            "name": dispatch_portfolio_analysts_tool.name,
+            "description": dispatch_portfolio_analysts_tool.description,
+            "input_schema": dispatch_portfolio_analysts_tool.input_schema,
         })
 
     for _turn in range(_MAX_TURNS):
@@ -324,17 +329,38 @@ async def run_lead_banker(
                 })
                 continue
 
-            if name == "dispatch_portfolio_strategist":
+            if name == "dispatch_portfolio_analysts":
                 if not portfolio_mode or user_id is None:
-                    result = {"error": "portfolio_mode not active or user_id missing"}
+                    result: dict[str, Any] = {
+                        "error": "portfolio_mode not active or user_id missing"
+                    }
                 else:
-                    result = await run_portfolio_strategist(
-                        user_id=user_id,
-                        portfolio_id=None,
-                        brief=cast(str, args.get("brief", "Analyze portfolio.")),
-                        target_alloc=args.get("target_alloc"),
-                        client=client,
+                    specialists = cast(
+                        list[str], args.get("specialists", ["strategist", "risk"]),
                     )
+                    brief = cast(str, args.get("brief", "Analyze portfolio."))
+                    target_alloc = args.get("target_alloc")
+                    coros: list[Any] = []
+                    names: list[str] = []
+                    if "strategist" in specialists:
+                        coros.append(run_portfolio_strategist(
+                            user_id=user_id, portfolio_id=None, brief=brief,
+                            target_alloc=target_alloc, client=client,
+                        ))
+                        names.append("strategist")
+                    if "risk" in specialists:
+                        coros.append(run_risk_manager(
+                            user_id=user_id, portfolio_id=None, brief=brief,
+                            client=client,
+                        ))
+                        names.append("risk")
+                    gathered = await asyncio.gather(*coros, return_exceptions=True)
+                    result = {}
+                    for n, r in zip(names, gathered, strict=True):
+                        if isinstance(r, BaseException):
+                            result[n] = {"error": str(r)}
+                        else:
+                            result[n] = cast(dict[str, Any], r)
                 tool_results.append({
                     "type": "tool_result",
                     "tool_use_id": block_id,
