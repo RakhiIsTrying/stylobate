@@ -10,9 +10,11 @@ from anthropic import AsyncAnthropic
 from app.agents.fundamental import run_fundamental_analysis
 from app.agents.macro import run_macro_analysis
 from app.agents.news_sentiment import run_news_analysis
+from app.agents.portfolio_strategist import run_portfolio_strategist
 from app.agents.technical import run_technical_analysis
 from app.agents.ticker_resolver import TickerResolution
 from app.core.anthropic_client import get_client
+from app.tools.base import Tool
 
 _MODEL = "claude-opus-4-7"
 _MAX_TURNS = 12
@@ -46,6 +48,29 @@ _DISPATCH_TOOL: dict[str, Any] = {
         "required": ["specialists", "brief"],
     },
 }
+
+dispatch_portfolio_strategist_tool = Tool(
+    name="dispatch_portfolio_strategist",
+    description=(
+        "Run the Portfolio Strategist on the user's current portfolio. "
+        "Use this ONLY when portfolio_mode is set. Pass a brief describing what "
+        "they want (snapshot, rebalance, comparison). If they specified a target "
+        "allocation, pass it as target_alloc dict."
+    ),
+    input_schema={
+        "type": "object",
+        "properties": {
+            "brief": {"type": "string"},
+            "target_alloc": {
+                "type": "object",
+                "description": "cohort_key (e.g. 'USD:equity_etf') -> fraction",
+                "additionalProperties": {"type": "number"},
+            },
+        },
+        "required": ["brief"],
+    },
+    impl=None,  # type: ignore[arg-type]  # marker tool; handled inline
+)
 
 _EMIT_TOOLS: list[dict[str, Any]] = [
     {
@@ -189,10 +214,12 @@ async def _run_dispatch(
 
 
 def _process_emit_block(block: Any) -> dict[str, Any] | None:
-    if getattr(block, "type", None) != "tool_use":
+    btype = block.get("type") if isinstance(block, dict) else getattr(block, "type", None)
+    if btype != "tool_use":
         return None
-    name = getattr(block, "name", "")
-    args = cast(dict[str, Any], getattr(block, "input", {})) or {}
+    name = block["name"] if isinstance(block, dict) else getattr(block, "name", "")
+    args_raw = block["input"] if isinstance(block, dict) else getattr(block, "input", {})
+    args = cast(dict[str, Any], args_raw) or {}
     if name == "emit_quick_take":
         return {"type": "quick_take", **args}
     if name == "emit_stock_card":
@@ -211,22 +238,45 @@ def _process_emit_block(block: Any) -> dict[str, Any] | None:
 async def run_lead_banker(
     *,
     user_message: str,
-    resolution: TickerResolution,
+    resolution: TickerResolution | None,
     client: AsyncAnthropic | Any | None = None,
+    portfolio_mode: bool = False,
+    user_id: str | None = None,  # closure-passed to run_portfolio_strategist; never in LLM state
 ) -> AsyncGenerator[dict[str, Any], None]:
     c = client or get_client()
     sys = _load_prompt()
     system_blocks = [{"type": "text", "text": sys, "cache_control": {"type": "ephemeral"}}]
+    if portfolio_mode:
+        user_content = (
+            f"User question: {user_message}\n\n"
+            "Portfolio mode is active — analyze the user's portfolio. "
+            "Call dispatch_portfolio_strategist exactly once with a brief, "
+            "then emit_* the response. Emit order: quick_take → "
+            "(skip stock_card — no single ticker) → sections → recommendation "
+            "(only if rebalance was requested) → disclaimer → done.\n\n"
+            "Do NOT call dispatch_specialists in portfolio mode."
+        )
+    else:
+        assert resolution is not None, "resolution required when portfolio_mode is False"
+        user_content = _build_user_message(user_message, resolution)
     messages: list[dict[str, Any]] = [
-        {"role": "user", "content": _build_user_message(user_message, resolution)},
+        {"role": "user", "content": user_content},
     ]
+
+    tools_list: list[dict[str, Any]] = [_DISPATCH_TOOL, *_EMIT_TOOLS]
+    if portfolio_mode:
+        tools_list.append({
+            "name": dispatch_portfolio_strategist_tool.name,
+            "description": dispatch_portfolio_strategist_tool.description,
+            "input_schema": dispatch_portfolio_strategist_tool.input_schema,
+        })
 
     for _turn in range(_MAX_TURNS):
         kwargs: dict[str, Any] = {
             "model": _MODEL,
             "max_tokens": 4000,
             "system": system_blocks,
-            "tools": [_DISPATCH_TOOL, *_EMIT_TOOLS],
+            "tools": tools_list,
             "messages": messages,
         }
         resp = await c.messages.create(**kwargs)
@@ -236,14 +286,32 @@ async def run_lead_banker(
         done = False
 
         for block in resp.content:
-            if getattr(block, "type", None) != "tool_use":
+            btype = block.get("type") if isinstance(block, dict) else getattr(block, "type", None)
+            if btype != "tool_use":
                 continue
             tool_use_blocks.append(block)
-            name = getattr(block, "name", "")
-            args = cast(dict[str, Any], getattr(block, "input", {})) or {}
-            block_id = cast(str, getattr(block, "id", ""))
+            name = block["name"] if isinstance(block, dict) else getattr(block, "name", "")
+            args_raw = (
+                block["input"] if isinstance(block, dict) else getattr(block, "input", {})
+            )
+            args = cast(dict[str, Any], args_raw) or {}
+            block_id_raw = (
+                block["id"] if isinstance(block, dict) else getattr(block, "id", "")
+            )
+            block_id = cast(str, block_id_raw)
 
             if name == "dispatch_specialists":
+                if resolution is None:
+                    err_msg = (
+                        "dispatch_specialists requires a resolved ticker; "
+                        "not available in portfolio_mode"
+                    )
+                    tool_results.append({
+                        "type": "tool_result",
+                        "tool_use_id": block_id,
+                        "content": json.dumps({"error": err_msg}),
+                    })
+                    continue
                 specialists = cast(list[str], args.get("specialists", []))
                 brief = cast(str, args.get("brief", ""))
                 findings = await _run_dispatch(
@@ -253,6 +321,24 @@ async def run_lead_banker(
                     "type": "tool_result",
                     "tool_use_id": block_id,
                     "content": json.dumps(findings, default=str),
+                })
+                continue
+
+            if name == "dispatch_portfolio_strategist":
+                if not portfolio_mode or user_id is None:
+                    result = {"error": "portfolio_mode not active or user_id missing"}
+                else:
+                    result = await run_portfolio_strategist(
+                        user_id=user_id,
+                        portfolio_id=None,
+                        brief=cast(str, args.get("brief", "Analyze portfolio.")),
+                        target_alloc=args.get("target_alloc"),
+                        client=client,
+                    )
+                tool_results.append({
+                    "type": "tool_result",
+                    "tool_use_id": block_id,
+                    "content": json.dumps(result, default=str),
                 })
                 continue
 
