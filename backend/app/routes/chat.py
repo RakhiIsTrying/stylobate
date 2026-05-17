@@ -1,6 +1,6 @@
 # backend/app/routes/chat.py
 import json
-from collections.abc import AsyncGenerator
+from collections.abc import AsyncGenerator, AsyncIterator
 from typing import Any
 
 from fastapi import APIRouter, Depends
@@ -9,6 +9,7 @@ from pydantic import BaseModel
 
 from app.agents.lead_banker import run_lead_banker
 from app.agents.ticker_resolver import resolve_ticker
+from app.core.anthropic_client import get_client
 from app.core.auth import get_current_token, get_current_user
 from app.core.logging import get_logger
 from app.core.output_validator import validate as validate_deltas
@@ -17,6 +18,20 @@ from app.db.messages import get_or_create_chat, insert_message
 
 router = APIRouter(prefix="/chat", tags=["chat"])
 log = get_logger(__name__)
+
+
+PORTFOLIO_KEYWORDS = (
+    "my portfolio", "my holdings", "my positions",
+    "rebalance", "allocation", "asset mix",
+    "how am i doing", "how's my", "review my",
+    "diversif", "concentrat",
+)
+
+
+def is_portfolio_query(text: str) -> bool:
+    """Return True if the message looks like a portfolio question."""
+    t = text.lower()
+    return any(kw in t for kw in PORTFOLIO_KEYWORDS)
 
 
 class ChatStreamRequest(BaseModel):
@@ -37,6 +52,33 @@ async def chat_stream(
 ) -> StreamingResponse:
     user_id = user["sub"]
     sb = get_user_client(token)
+
+    if is_portfolio_query(req.content):
+        async def _portfolio_stream() -> AsyncIterator[bytes]:
+            yield (
+                b"event: progress\ndata: "
+                + json.dumps({"step": "analyzing_portfolio"}).encode()
+                + b"\n\n"
+            )
+            async for delta in run_lead_banker(
+                user_message=req.content,
+                resolution=None,
+                client=get_client(),
+                portfolio_mode=True,
+                user_id=user["sub"],
+            ):
+                event_name = delta.pop("type", "delta")
+                event = (
+                    f"event: {event_name}\ndata: "
+                    + json.dumps(delta, default=str)
+                    + "\n\n"
+                )
+                yield event.encode()
+            yield b"event: done\ndata: {}\n\n"
+
+        return StreamingResponse(
+            _portfolio_stream(), media_type="text/event-stream"
+        )
 
     async def event_stream() -> AsyncGenerator[bytes, None]:
         chat = await get_or_create_chat(sb, user_id=user_id, chat_id=req.chat_id)
