@@ -94,4 +94,42 @@ test.describe("Portfolio", () => {
       .click();
     await expect(page.getByText("NVDA")).not.toBeVisible({ timeout: 5000 });
   });
+
+  test("analyze portfolio button shows a snapshot section in chat", async ({ page }) => {
+    // Set up: need at least one position so the strategist has data
+    await page.waitForLoadState("networkidle");
+    const emptyPositions = page.getByText(/No positions yet/);
+    if (await emptyPositions.isVisible({ timeout: 2000 }).catch(() => false)) {
+      // Need to create a portfolio + position first
+      const newBtn = page.getByRole("button", { name: /^\+ New$/ }).first();
+      if (await newBtn.isVisible({ timeout: 1000 }).catch(() => false)) {
+        await newBtn.click();
+        await page.getByPlaceholder("Portfolio name").fill("Playwright Analyze");
+        await page.getByRole("button", { name: "Create", exact: true }).click();
+        await expect(emptyPositions).toBeHidden({ timeout: 5000 });
+      }
+      await page.getByRole("button", { name: "+ Add position" }).click();
+      await page.getByPlaceholder("Apple / RELIANCE.NS / BTC").fill("Apple");
+      await page.getByRole("button", { name: "Resolve" }).click();
+      await page.getByRole("button", { name: "Use this ticker" }).click();
+      await page.getByLabel("Quantity").fill("10");
+      await page.getByLabel(/Cost basis/).fill("150");
+      await page.getByRole("button", { name: "Save position" }).click();
+      await expect(page.getByText("AAPL")).toBeVisible({ timeout: 8000 });
+    }
+
+    // Click Analyze portfolio — navigates to /chat
+    await page.getByRole("button", { name: "Analyze portfolio" }).click();
+    await page.waitForURL("**/chat**", { timeout: 5000 });
+
+    // Wait for the analysis to produce a section
+    await expect(
+      page.getByText(/Portfolio Snapshot|Returns vs Benchmark|Risk Metrics/),
+    ).toBeVisible({ timeout: 60_000 });
+
+    // Cleanup: nav back to portfolio and delete AAPL
+    await page.goto("/portfolio");
+    page.once("dialog", (d) => d.accept());
+    await page.getByRole("button", { name: /Delete/ }).first().click();
+  });
 });
