@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 
 import { ChatThread } from "@/components/chat-thread";
 import { Composer } from "@/components/composer";
@@ -10,7 +11,10 @@ import type { ChatMessage, ChatMessageBlock } from "@/lib/types";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8000";
 
-export default function ChatPage() {
+function ChatPageInner() {
+  const searchParams = useSearchParams();
+  const prefill = searchParams.get("prefill") ?? "";
+
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [sending, setSending] = useState(false);
   const [chatId, setChatId] = useState<string | null>(null);
@@ -89,7 +93,20 @@ export default function ChatPage() {
       <div className="flex-1 overflow-y-auto">
         <ChatThread messages={messages} />
       </div>
-      <Composer onSend={handleSend} disabled={sending || !jwt} />
+      <Composer
+        key={prefill || "empty"}
+        onSend={handleSend}
+        disabled={sending || !jwt}
+        initialValue={prefill}
+      />
     </main>
+  );
+}
+
+export default function ChatPage() {
+  return (
+    <Suspense fallback={<main className="flex h-screen flex-col" />}>
+      <ChatPageInner />
+    </Suspense>
   );
 }

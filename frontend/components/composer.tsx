@@ -2,8 +2,16 @@
 import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 
-export function Composer({ onSend, disabled }: { onSend: (text: string) => void; disabled?: boolean }) {
-  const [value, setValue] = useState("");
+export function Composer({
+  onSend,
+  disabled,
+  initialValue,
+}: {
+  onSend: (text: string) => void;
+  disabled?: boolean;
+  initialValue?: string;
+}) {
+  const [value, setValue] = useState(initialValue ?? "");
 
   function submit(e: FormEvent) {
     e.preventDefault();

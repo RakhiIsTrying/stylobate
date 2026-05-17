@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import {
   deletePosition,
@@ -18,6 +19,7 @@ import { PortfolioTable } from "./portfolio-table";
 import { RefreshButton } from "./refresh-button";
 
 export function PortfolioTab() {
+  const router = useRouter();
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [data, setData] = useState<PositionsResponse | null>(null);
@@ -25,6 +27,14 @@ export function PortfolioTab() {
   const [error, setError] = useState<string | null>(null);
   const [addOpen, setAddOpen] = useState(false);
   const [editing, setEditing] = useState<Position | null>(null);
+
+  function handleAnalyze() {
+    if (!selectedId) return;
+    const portfolio = portfolios.find((p) => p.id === selectedId);
+    const name = portfolio?.name ?? "my portfolio";
+    const prefill = `Analyze ${name}: cohort snapshot, returns vs benchmark, and risk metrics. Review my portfolio.`;
+    router.push(`/chat?prefill=${encodeURIComponent(prefill)}`);
+  }
 
   const reloadPositions = useCallback(async () => {
     if (!selectedId) return;
@@ -140,6 +150,13 @@ export function PortfolioTab() {
         />
         <div className="flex gap-2">
           <RefreshButton onRefresh={handleRefresh} />
+          <button
+            onClick={handleAnalyze}
+            disabled={!selectedId}
+            className="border rounded-md px-3 py-1 text-sm disabled:opacity-50"
+          >
+            Analyze portfolio
+          </button>
           <button
             onClick={() => setAddOpen(true)}
             className="border rounded-md px-3 py-1 text-sm bg-blue-500 text-white hover:bg-blue-600"
