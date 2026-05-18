@@ -8,6 +8,7 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
 from app.agents.lead_banker import run_lead_banker
+from app.agents.screener import run_screener
 from app.agents.ticker_resolver import resolve_ticker
 from app.core.anthropic_client import get_client
 from app.core.auth import get_current_token, get_current_user
@@ -32,6 +33,21 @@ def is_portfolio_query(text: str) -> bool:
     """Return True if the message looks like a portfolio question."""
     t = text.lower()
     return any(kw in t for kw in PORTFOLIO_KEYWORDS)
+
+
+SCREENER_KEYWORDS = (
+    "screen for", "screen me", "find me", "find some",
+    "best stocks", "best names", "ideas for",
+    "plays in", "plays for", "plays on",
+    "show me some", "top picks",
+    "candidates for", "names in",
+)
+
+
+def is_screener_query(text: str) -> bool:
+    """Return True if the message looks like a screener / idea-generation question."""
+    t = text.lower()
+    return any(kw in t for kw in SCREENER_KEYWORDS)
 
 
 class ChatStreamRequest(BaseModel):
@@ -79,6 +95,19 @@ async def chat_stream(
         return StreamingResponse(
             _portfolio_stream(), media_type="text/event-stream"
         )
+
+    if is_screener_query(req.content):
+        async def _screener_stream() -> AsyncIterator[bytes]:
+            findings = await run_screener(
+                user_message=req.content,
+                user_id=user["sub"],
+                client=get_client(),
+            )
+            # Lazy import avoids any circular-import risk
+            from app.routes.chat_screen import _stream_findings as _render
+            async for chunk in _render(findings):
+                yield chunk
+        return StreamingResponse(_screener_stream(), media_type="text/event-stream")
 
     async def event_stream() -> AsyncGenerator[bytes, None]:
         chat = await get_or_create_chat(sb, user_id=user_id, chat_id=req.chat_id)
