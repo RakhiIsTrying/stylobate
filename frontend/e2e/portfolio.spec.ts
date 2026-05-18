@@ -96,19 +96,24 @@ test.describe("Portfolio", () => {
   });
 
   test("analyze portfolio button shows a snapshot section in chat", async ({ page }) => {
+    // Lead Banker + Portfolio Strategist + Risk Manager Sonnet calls in parallel,
+    // plus benchmark/FX fetches, can take well over 30s on cold cache.
+    test.setTimeout(180_000);
     // Set up: need at least one position so the strategist has data
     await page.waitForLoadState("networkidle");
     const emptyPositions = page.getByText(/No positions yet/);
     if (await emptyPositions.isVisible({ timeout: 2000 }).catch(() => false)) {
       // Need to create a portfolio + position first
-      const newBtn = page.getByRole("button", { name: /^\+ New$/ }).first();
-      if (await newBtn.isVisible({ timeout: 1000 }).catch(() => false)) {
+      // If a "+ Add position" button isn't visible, we need to create a portfolio first.
+      const addBtn = page.getByRole("button", { name: "+ Add position" });
+      if (!(await addBtn.isVisible({ timeout: 1000 }).catch(() => false))) {
+        const newBtn = page.getByRole("button", { name: /^\+ New$/ }).first();
         await newBtn.click();
         await page.getByPlaceholder("Portfolio name").fill("Playwright Analyze");
         await page.getByRole("button", { name: "Create", exact: true }).click();
-        await expect(emptyPositions).toBeHidden({ timeout: 5000 });
+        await expect(addBtn).toBeVisible({ timeout: 5000 });
       }
-      await page.getByRole("button", { name: "+ Add position" }).click();
+      await addBtn.click();
       await page.getByPlaceholder("Apple / RELIANCE.NS / BTC").fill("Apple");
       await page.getByRole("button", { name: "Resolve" }).click();
       await page.getByRole("button", { name: "Use this ticker" }).click();
@@ -118,14 +123,18 @@ test.describe("Portfolio", () => {
       await expect(page.getByText("AAPL")).toBeVisible({ timeout: 8000 });
     }
 
-    // Click Analyze portfolio — navigates to /chat
+    // Click Analyze portfolio — navigates to /chat with the prefill in the composer
     await page.getByRole("button", { name: "Analyze portfolio" }).click();
     await page.waitForURL("**/chat**", { timeout: 5000 });
+    // Prefill only fills the composer; click Send to actually submit
+    await page.getByRole("button", { name: "Send", exact: true }).click();
 
-    // Wait for the analysis to produce a section
+    // Wait for the analysis to produce a section.
+    // Sonnet + asyncio.gather(strategist, risk) + benchmark/FX fetches typically
+    // take 60-90s on cold cache; allow 150s for the section to render.
     await expect(
       page.getByText(/Portfolio Snapshot|Returns vs Benchmark|Risk Metrics/),
-    ).toBeVisible({ timeout: 60_000 });
+    ).toBeVisible({ timeout: 150_000 });
 
     // Cleanup: nav back to portfolio and delete AAPL
     await page.goto("/portfolio");
