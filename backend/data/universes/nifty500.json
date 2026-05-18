@@ -1,0 +1,4002 @@
+[
+  {
+    "ticker": "360ONE.NS",
+    "name": "360 ONE WAM Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "3MINDIA.NS",
+    "name": "3M India Ltd.",
+    "sector": "Diversified",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ABB.NS",
+    "name": "ABB India Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ACC.NS",
+    "name": "ACC Ltd.",
+    "sector": "Construction Materials",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "AIAENG.NS",
+    "name": "AIA Engineering Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "APLAPOLLO.NS",
+    "name": "APL Apollo Tubes Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "AUBANK.NS",
+    "name": "AU Small Finance Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "AARTIIND.NS",
+    "name": "Aarti Industries Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "AAVAS.NS",
+    "name": "Aavas Financiers Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ABBOTINDIA.NS",
+    "name": "Abbott India Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ACE.NS",
+    "name": "Action Construction Equipment Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ADANIENSOL.NS",
+    "name": "Adani Energy Solutions Ltd.",
+    "sector": "Power",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ADANIENT.NS",
+    "name": "Adani Enterprises Ltd.",
+    "sector": "Metals & Mining",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ADANIGREEN.NS",
+    "name": "Adani Green Energy Ltd.",
+    "sector": "Power",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ADANIPORTS.NS",
+    "name": "Adani Ports and Special Economic Zone Ltd.",
+    "sector": "Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ADANIPOWER.NS",
+    "name": "Adani Power Ltd.",
+    "sector": "Power",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ATGL.NS",
+    "name": "Adani Total Gas Ltd.",
+    "sector": "Oil Gas & Consumable Fuels",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "AWL.NS",
+    "name": "Adani Wilmar Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ABCAPITAL.NS",
+    "name": "Aditya Birla Capital Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ABFRL.NS",
+    "name": "Aditya Birla Fashion and Retail Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "AEGISLOG.NS",
+    "name": "Aegis Logistics Ltd.",
+    "sector": "Oil Gas & Consumable Fuels",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "AETHER.NS",
+    "name": "Aether Industries Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "AFFLE.NS",
+    "name": "Affle (India) Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "AJANTPHARM.NS",
+    "name": "Ajanta Pharmaceuticals Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "APLLTD.NS",
+    "name": "Alembic Pharmaceuticals Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ALKEM.NS",
+    "name": "Alkem Laboratories Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ALKYLAMINE.NS",
+    "name": "Alkyl Amines Chemicals Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ALLCARGO.NS",
+    "name": "Allcargo Logistics Ltd.",
+    "sector": "Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ALOKINDS.NS",
+    "name": "Alok Industries Ltd.",
+    "sector": "Textiles",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ARE&M.NS",
+    "name": "Amara Raja Energy & Mobility Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "AMBER.NS",
+    "name": "Amber Enterprises India Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "AMBUJACEM.NS",
+    "name": "Ambuja Cements Ltd.",
+    "sector": "Construction Materials",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ANANDRATHI.NS",
+    "name": "Anand Rathi Wealth Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ANGELONE.NS",
+    "name": "Angel One Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ANURAS.NS",
+    "name": "Anupam Rasayan India Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "APARINDS.NS",
+    "name": "Apar Industries Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "APOLLOHOSP.NS",
+    "name": "Apollo Hospitals Enterprise Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "APOLLOTYRE.NS",
+    "name": "Apollo Tyres Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "APTUS.NS",
+    "name": "Aptus Value Housing Finance India Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ACI.NS",
+    "name": "Archean Chemical Industries Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ASAHIINDIA.NS",
+    "name": "Asahi India Glass Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ASHOKLEY.NS",
+    "name": "Ashok Leyland Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ASIANPAINT.NS",
+    "name": "Asian Paints Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ASTERDM.NS",
+    "name": "Aster DM Healthcare Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ASTRAZEN.NS",
+    "name": "AstraZenca Pharma India Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ASTRAL.NS",
+    "name": "Astral Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ATUL.NS",
+    "name": "Atul Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "AUROPHARMA.NS",
+    "name": "Aurobindo Pharma Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "AVANTIFEED.NS",
+    "name": "Avanti Feeds Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "DMART.NS",
+    "name": "Avenue Supermarts Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "AXISBANK.NS",
+    "name": "Axis Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BEML.NS",
+    "name": "BEML Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BLS.NS",
+    "name": "BLS International Services Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BSE.NS",
+    "name": "BSE Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BAJAJ-AUTO.NS",
+    "name": "Bajaj Auto Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BAJFINANCE.NS",
+    "name": "Bajaj Finance Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BAJAJFINSV.NS",
+    "name": "Bajaj Finserv Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BAJAJHLDNG.NS",
+    "name": "Bajaj Holdings & Investment Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BALAMINES.NS",
+    "name": "Balaji Amines Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BALKRISIND.NS",
+    "name": "Balkrishna Industries Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BALRAMCHIN.NS",
+    "name": "Balrampur Chini Mills Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BANDHANBNK.NS",
+    "name": "Bandhan Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BANKBARODA.NS",
+    "name": "Bank of Baroda",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BANKINDIA.NS",
+    "name": "Bank of India",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MAHABANK.NS",
+    "name": "Bank of Maharashtra",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BATAINDIA.NS",
+    "name": "Bata India Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BAYERCROP.NS",
+    "name": "Bayer Cropscience Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BERGEPAINT.NS",
+    "name": "Berger Paints India Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BDL.NS",
+    "name": "Bharat Dynamics Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BEL.NS",
+    "name": "Bharat Electronics Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BHARATFORG.NS",
+    "name": "Bharat Forge Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BHEL.NS",
+    "name": "Bharat Heavy Electricals Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BPCL.NS",
+    "name": "Bharat Petroleum Corporation Ltd.",
+    "sector": "Oil Gas & Consumable Fuels",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BHARTIARTL.NS",
+    "name": "Bharti Airtel Ltd.",
+    "sector": "Telecommunication",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BIKAJI.NS",
+    "name": "Bikaji Foods International Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BIOCON.NS",
+    "name": "Biocon Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BIRLACORPN.NS",
+    "name": "Birla Corporation Ltd.",
+    "sector": "Construction Materials",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BSOFT.NS",
+    "name": "Birlasoft Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BLUEDART.NS",
+    "name": "Blue Dart Express Ltd.",
+    "sector": "Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BLUESTARCO.NS",
+    "name": "Blue Star Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BBTC.NS",
+    "name": "Bombay Burmah Trading Corporation Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BORORENEW.NS",
+    "name": "Borosil Renewables Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BOSCHLTD.NS",
+    "name": "Bosch Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BRIGADE.NS",
+    "name": "Brigade Enterprises Ltd.",
+    "sector": "Realty",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "BRITANNIA.NS",
+    "name": "Britannia Industries Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MAPMYINDIA.NS",
+    "name": "C.E. Info Systems Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CCL.NS",
+    "name": "CCL Products (I) Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CESC.NS",
+    "name": "CESC Ltd.",
+    "sector": "Power",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CGPOWER.NS",
+    "name": "CG Power and Industrial Solutions Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CIEINDIA.NS",
+    "name": "CIE Automotive India Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CRISIL.NS",
+    "name": "CRISIL Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CSBBANK.NS",
+    "name": "CSB Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CAMPUS.NS",
+    "name": "Campus Activewear Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CANFINHOME.NS",
+    "name": "Can Fin Homes Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CANBK.NS",
+    "name": "Canara Bank",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CAPLIPOINT.NS",
+    "name": "Caplin Point Laboratories Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CGCL.NS",
+    "name": "Capri Global Capital Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CARBORUNIV.NS",
+    "name": "Carborundum Universal Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CASTROLIND.NS",
+    "name": "Castrol India Ltd.",
+    "sector": "Oil Gas & Consumable Fuels",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CEATLTD.NS",
+    "name": "Ceat Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CELLO.NS",
+    "name": "Cello World Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CENTRALBK.NS",
+    "name": "Central Bank of India",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CDSL.NS",
+    "name": "Central Depository Services (India) Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CENTURYPLY.NS",
+    "name": "Century Plyboards (India) Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ABREL.NS",
+    "name": "Aditya Birla Real Estate Ltd.",
+    "sector": "Forest Materials",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CERA.NS",
+    "name": "Cera Sanitaryware Ltd",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CHALET.NS",
+    "name": "Chalet Hotels Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CHAMBLFERT.NS",
+    "name": "Chambal Fertilizers & Chemicals Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CHEMPLASTS.NS",
+    "name": "Chemplast Sanmar Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CHENNPETRO.NS",
+    "name": "Chennai Petroleum Corporation Ltd.",
+    "sector": "Oil Gas & Consumable Fuels",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CHOLAHLDNG.NS",
+    "name": "Cholamandalam Financial Holdings Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CHOLAFIN.NS",
+    "name": "Cholamandalam Investment and Finance Company Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CIPLA.NS",
+    "name": "Cipla Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CUB.NS",
+    "name": "City Union Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CLEAN.NS",
+    "name": "Clean Science and Technology Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "COALINDIA.NS",
+    "name": "Coal India Ltd.",
+    "sector": "Oil Gas & Consumable Fuels",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "COCHINSHIP.NS",
+    "name": "Cochin Shipyard Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "COFORGE.NS",
+    "name": "Coforge Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "COLPAL.NS",
+    "name": "Colgate Palmolive (India) Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CAMS.NS",
+    "name": "Computer Age Management Services Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CONCORDBIO.NS",
+    "name": "Concord Biotech Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CONCOR.NS",
+    "name": "Container Corporation of India Ltd.",
+    "sector": "Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "COROMANDEL.NS",
+    "name": "Coromandel International Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CRAFTSMAN.NS",
+    "name": "Craftsman Automation Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CREDITACC.NS",
+    "name": "CreditAccess Grameen Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CROMPTON.NS",
+    "name": "Crompton Greaves Consumer Electricals Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CUMMINSIND.NS",
+    "name": "Cummins India Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "CYIENT.NS",
+    "name": "Cyient Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "DCMSHRIRAM.NS",
+    "name": "DCM Shriram Ltd.",
+    "sector": "Diversified",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "DLF.NS",
+    "name": "DLF Ltd.",
+    "sector": "Realty",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "DOMS.NS",
+    "name": "DOMS Industries Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "DABUR.NS",
+    "name": "Dabur India Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "DALBHARAT.NS",
+    "name": "Dalmia Bharat Ltd.",
+    "sector": "Construction Materials",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "DATAPATTNS.NS",
+    "name": "Data Patterns (India) Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "DEEPAKFERT.NS",
+    "name": "Deepak Fertilisers & Petrochemicals Corp. Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "DEEPAKNTR.NS",
+    "name": "Deepak Nitrite Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "DELHIVERY.NS",
+    "name": "Delhivery Ltd.",
+    "sector": "Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "DEVYANI.NS",
+    "name": "Devyani International Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "DIVISLAB.NS",
+    "name": "Divi's Laboratories Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "DIXON.NS",
+    "name": "Dixon Technologies (India) Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "LALPATHLAB.NS",
+    "name": "Dr. Lal Path Labs Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "DRREDDY.NS",
+    "name": "Dr. Reddy's Laboratories Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "EIDPARRY.NS",
+    "name": "E.I.D. Parry (India) Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "EIHOTEL.NS",
+    "name": "EIH Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "EPL.NS",
+    "name": "EPL Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "EASEMYTRIP.NS",
+    "name": "Easy Trip Planners Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "EICHERMOT.NS",
+    "name": "Eicher Motors Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ELECON.NS",
+    "name": "Elecon Engineering Co. Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ELGIEQUIP.NS",
+    "name": "Elgi Equipments Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "EMAMILTD.NS",
+    "name": "Emami Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ENDURANCE.NS",
+    "name": "Endurance Technologies Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ENGINERSIN.NS",
+    "name": "Engineers India Ltd.",
+    "sector": "Construction",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "EQUITASBNK.NS",
+    "name": "Equitas Small Finance Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ERIS.NS",
+    "name": "Eris Lifesciences Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ESCORTS.NS",
+    "name": "Escorts Kubota Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "EXIDEIND.NS",
+    "name": "Exide Industries Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "FDC.NS",
+    "name": "FDC Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NYKAA.NS",
+    "name": "FSN E-Commerce Ventures Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "FEDERALBNK.NS",
+    "name": "Federal Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "FACT.NS",
+    "name": "Fertilisers and Chemicals Travancore Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "FINEORG.NS",
+    "name": "Fine Organic Industries Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "FINCABLES.NS",
+    "name": "Finolex Cables Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "FINPIPE.NS",
+    "name": "Finolex Industries Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "FSL.NS",
+    "name": "Firstsource Solutions Ltd.",
+    "sector": "Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "FIVESTAR.NS",
+    "name": "Five-Star Business Finance Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "FORTIS.NS",
+    "name": "Fortis Healthcare Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GAIL.NS",
+    "name": "GAIL (India) Ltd.",
+    "sector": "Oil Gas & Consumable Fuels",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GMMPFAUDLR.NS",
+    "name": "GMM Pfaudler Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GMRINFRASTRUCT.NS",
+    "name": "GMR Airports Infrastructure Ltd.",
+    "sector": "Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GRSE.NS",
+    "name": "Garden Reach Shipbuilders & Engineers Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GICRE.NS",
+    "name": "General Insurance Corporation of India",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GILLETTE.NS",
+    "name": "Gillette India Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GLAND.NS",
+    "name": "Gland Pharma Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GLAXO.NS",
+    "name": "Glaxosmithkline Pharmaceuticals Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ALIVUS.NS",
+    "name": "Glenmark Life Sciences Ltd. REBRANDED AS ALIVUS",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GLENMARK.NS",
+    "name": "Glenmark Pharmaceuticals Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MEDANTA.NS",
+    "name": "Global Health Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GPIL.NS",
+    "name": "Godawari Power & Ispat Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GODFRYPHLP.NS",
+    "name": "Godfrey Phillips India Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GODREJCP.NS",
+    "name": "Godrej Consumer Products Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GODREJIND.NS",
+    "name": "Godrej Industries Ltd.",
+    "sector": "Diversified",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GODREJPROP.NS",
+    "name": "Godrej Properties Ltd.",
+    "sector": "Realty",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GRANULES.NS",
+    "name": "Granules India Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GRAPHITE.NS",
+    "name": "Graphite India Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GRASIM.NS",
+    "name": "Grasim Industries Ltd.",
+    "sector": "Construction Materials",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GESHIP.NS",
+    "name": "Great Eastern Shipping Co. Ltd.",
+    "sector": "Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GRINDWELL.NS",
+    "name": "Grindwell Norton Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GAEL.NS",
+    "name": "Gujarat Ambuja Exports Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "FLUOROCHEM.NS",
+    "name": "Gujarat Fluorochemicals Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GUJGASLTD.NS",
+    "name": "Gujarat Gas Ltd.",
+    "sector": "Oil Gas & Consumable Fuels",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GMDCLTD.NS",
+    "name": "Gujarat Mineral Development Corporation Ltd.",
+    "sector": "Metals & Mining",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GNFC.NS",
+    "name": "Gujarat Narmada Valley Fertilizers and Chemicals Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GPPL.NS",
+    "name": "Gujarat Pipavav Port Ltd.",
+    "sector": "Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GSFC.NS",
+    "name": "Gujarat State Fertilizers & Chemicals Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "GSPL.NS",
+    "name": "Gujarat State Petronet Ltd.",
+    "sector": "Oil Gas & Consumable Fuels",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HEG.NS",
+    "name": "H.E.G. Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HBLENGINE.NS",
+    "name": "HBL Power Systems Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HCLTECH.NS",
+    "name": "HCL Technologies Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HDFCAMC.NS",
+    "name": "HDFC Asset Management Company Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HDFCBANK.NS",
+    "name": "HDFC Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HDFCLIFE.NS",
+    "name": "HDFC Life Insurance Company Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HFCL.NS",
+    "name": "HFCL Ltd.",
+    "sector": "Telecommunication",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HAPPSTMNDS.NS",
+    "name": "Happiest Minds Technologies Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HAPPYFORGE.NS",
+    "name": "Happy Forgings Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HAVELLS.NS",
+    "name": "Havells India Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HEROMOTOCO.NS",
+    "name": "Hero MotoCorp Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HSCL.NS",
+    "name": "Himadri Speciality Chemical Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HINDALCO.NS",
+    "name": "Hindalco Industries Ltd.",
+    "sector": "Metals & Mining",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HAL.NS",
+    "name": "Hindustan Aeronautics Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HINDCOPPER.NS",
+    "name": "Hindustan Copper Ltd.",
+    "sector": "Metals & Mining",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HINDPETRO.NS",
+    "name": "Hindustan Petroleum Corporation Ltd.",
+    "sector": "Oil Gas & Consumable Fuels",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HINDUNILVR.NS",
+    "name": "Hindustan Unilever Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HINDZINC.NS",
+    "name": "Hindustan Zinc Ltd.",
+    "sector": "Metals & Mining",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "POWERINDIA.NS",
+    "name": "Hitachi Energy India Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HOMEFIRST.NS",
+    "name": "Home First Finance Company India Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HONASA.NS",
+    "name": "Honasa Consumer Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HONAUT.NS",
+    "name": "Honeywell Automation India Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "HUDCO.NS",
+    "name": "Housing & Urban Development Corporation Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ICICIBANK.NS",
+    "name": "ICICI Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ICICIGI.NS",
+    "name": "ICICI Lombard General Insurance Company Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ICICIPRULI.NS",
+    "name": "ICICI Prudential Life Insurance Company Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ISEC.NS",
+    "name": "ICICI Securities Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "IDBI.NS",
+    "name": "IDBI Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "IDFCFIRSTB.NS",
+    "name": "IDFC First Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "IFCI.NS",
+    "name": "IFCI Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "IIFL.NS",
+    "name": "IIFL Finance Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "IRB.NS",
+    "name": "IRB Infrastructure Developers Ltd.",
+    "sector": "Construction",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "IRCON.NS",
+    "name": "IRCON International Ltd.",
+    "sector": "Construction",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ITC.NS",
+    "name": "ITC Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ITI.NS",
+    "name": "ITI Ltd.",
+    "sector": "Telecommunication",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "INDIACEM.NS",
+    "name": "India Cements Ltd.",
+    "sector": "Construction Materials",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "INDIAMART.NS",
+    "name": "Indiamart Intermesh Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "INDIANB.NS",
+    "name": "Indian Bank",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "IEX.NS",
+    "name": "Indian Energy Exchange Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "INDHOTEL.NS",
+    "name": "Indian Hotels Co. Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "IOC.NS",
+    "name": "Indian Oil Corporation Ltd.",
+    "sector": "Oil Gas & Consumable Fuels",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "IOB.NS",
+    "name": "Indian Overseas Bank",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "IRCTC.NS",
+    "name": "Indian Railway Catering And Tourism Corporation Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "IRFC.NS",
+    "name": "Indian Railway Finance Corporation Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "INDIGOPNTS.NS",
+    "name": "Indigo Paints Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "IGL.NS",
+    "name": "Indraprastha Gas Ltd.",
+    "sector": "Oil Gas & Consumable Fuels",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "INDUSTOWER.NS",
+    "name": "Indus Towers Ltd.",
+    "sector": "Telecommunication",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "INDUSINDBK.NS",
+    "name": "IndusInd Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NAUKRI.NS",
+    "name": "Info Edge (India) Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "INFY.NS",
+    "name": "Infosys Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "INOXWIND.NS",
+    "name": "Inox Wind Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "INTELLECT.NS",
+    "name": "Intellect Design Arena Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "INDIGO.NS",
+    "name": "InterGlobe Aviation Ltd.",
+    "sector": "Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "IPCALAB.NS",
+    "name": "Ipca Laboratories Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JBCHEPHARM.NS",
+    "name": "J.B. Chemicals & Pharmaceuticals Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JKCEMENT.NS",
+    "name": "J.K. Cement Ltd.",
+    "sector": "Construction Materials",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JBMA.NS",
+    "name": "JBM Auto Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JKLAKSHMI.NS",
+    "name": "JK Lakshmi Cement Ltd.",
+    "sector": "Construction Materials",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JKPAPER.NS",
+    "name": "JK Paper Ltd.",
+    "sector": "Forest Materials",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JMFINANCIL.NS",
+    "name": "JM Financial Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JSWENERGY.NS",
+    "name": "JSW Energy Ltd.",
+    "sector": "Power",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JSWINFRA.NS",
+    "name": "JSW Infrastructure Ltd.",
+    "sector": "Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JSWSTEEL.NS",
+    "name": "JSW Steel Ltd.",
+    "sector": "Metals & Mining",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JAIBALAJI.NS",
+    "name": "Jai Balaji Industries Ltd.",
+    "sector": "Metals & Mining",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "J&KBANK.NS",
+    "name": "Jammu & Kashmir Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JINDALSAW.NS",
+    "name": "Jindal Saw Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JSL.NS",
+    "name": "Jindal Stainless Ltd.",
+    "sector": "Metals & Mining",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JINDALSTEL.NS",
+    "name": "Jindal Steel & Power Ltd.",
+    "sector": "Metals & Mining",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JIOFIN.NS",
+    "name": "Jio Financial Services Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JUBLFOOD.NS",
+    "name": "Jubilant Foodworks Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JUBLINGREA.NS",
+    "name": "Jubilant Ingrevia Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JUBLPHARMA.NS",
+    "name": "Jubilant Pharmova Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JWL.NS",
+    "name": "Jupiter Wagons Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JUSTDIAL.NS",
+    "name": "Justdial Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "JYOTHYLAB.NS",
+    "name": "Jyothy Labs Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "KPRMILL.NS",
+    "name": "K.P.R. Mill Ltd.",
+    "sector": "Textiles",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "KEI.NS",
+    "name": "KEI Industries Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "KNRCON.NS",
+    "name": "KNR Constructions Ltd.",
+    "sector": "Construction",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "KPITTECH.NS",
+    "name": "KPIT Technologies Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "KRBL.NS",
+    "name": "KRBL Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "KSB.NS",
+    "name": "KSB Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "KAJARIACER.NS",
+    "name": "Kajaria Ceramics Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "KPIL.NS",
+    "name": "Kalpataru Projects International Ltd.",
+    "sector": "Construction",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "KALYANKJIL.NS",
+    "name": "Kalyan Jewellers India Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "KANSAINER.NS",
+    "name": "Kansai Nerolac Paints Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "KARURVYSYA.NS",
+    "name": "Karur Vysya Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "KAYNES.NS",
+    "name": "Kaynes Technology India Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "KEC.NS",
+    "name": "Kec International Ltd.",
+    "sector": "Construction",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "KFINTECH.NS",
+    "name": "Kfin Technologies Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "KOTAKBANK.NS",
+    "name": "Kotak Mahindra Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "KIMS.NS",
+    "name": "Krishna Institute of Medical Sciences Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "LTF.NS",
+    "name": "L&T Finance Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "LTTS.NS",
+    "name": "L&T Technology Services Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "LICHSGFIN.NS",
+    "name": "LIC Housing Finance Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "LTIM.NS",
+    "name": "LTIMindtree Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "LT.NS",
+    "name": "Larsen & Toubro Ltd.",
+    "sector": "Construction",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "LATENTVIEW.NS",
+    "name": "Latent View Analytics Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "LAURUSLABS.NS",
+    "name": "Laurus Labs Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "LXCHEM.NS",
+    "name": "Laxmi Organic Industries Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "LEMONTREE.NS",
+    "name": "Lemon Tree Hotels Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "LICI.NS",
+    "name": "Life Insurance Corporation of India",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "LINDEINDIA.NS",
+    "name": "Linde India Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "LLOYDSME.NS",
+    "name": "Lloyds Metals And Energy Ltd.",
+    "sector": "Metals & Mining",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "LUPIN.NS",
+    "name": "Lupin Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MMTC.NS",
+    "name": "MMTC Ltd.",
+    "sector": "Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MRF.NS",
+    "name": "MRF Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MTARTECH.NS",
+    "name": "MTAR Technologies Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "LODHA.NS",
+    "name": "Macrotech Developers Ltd.",
+    "sector": "Realty",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MGL.NS",
+    "name": "Mahanagar Gas Ltd.",
+    "sector": "Oil Gas & Consumable Fuels",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MAHSEAMLES.NS",
+    "name": "Maharashtra Seamless Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "M&MFIN.NS",
+    "name": "Mahindra & Mahindra Financial Services Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "M&M.NS",
+    "name": "Mahindra & Mahindra Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MHRIL.NS",
+    "name": "Mahindra Holidays & Resorts India Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MAHLIFE.NS",
+    "name": "Mahindra Lifespace Developers Ltd.",
+    "sector": "Realty",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MANAPPURAM.NS",
+    "name": "Manappuram Finance Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MRPL.NS",
+    "name": "Mangalore Refinery & Petrochemicals Ltd.",
+    "sector": "Oil Gas & Consumable Fuels",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MANKIND.NS",
+    "name": "Mankind Pharma Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MARICO.NS",
+    "name": "Marico Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MARUTI.NS",
+    "name": "Maruti Suzuki India Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MASTEK.NS",
+    "name": "Mastek Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MFSL.NS",
+    "name": "Max Financial Services Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MAXHEALTH.NS",
+    "name": "Max Healthcare Institute Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MAZDOCK.NS",
+    "name": "Mazagoan Dock Shipbuilders Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MEDPLUS.NS",
+    "name": "Medplus Health Services Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "METROBRAND.NS",
+    "name": "Metro Brands Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "METROPOLIS.NS",
+    "name": "Metropolis Healthcare Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MINDACORP.NS",
+    "name": "Minda Corporation Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MSUMI.NS",
+    "name": "Motherson Sumi Wiring India Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MOTILALOFS.NS",
+    "name": "Motilal Oswal Financial Services Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MPHASIS.NS",
+    "name": "MphasiS Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MCX.NS",
+    "name": "Multi Commodity Exchange of India Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MUTHOOTFIN.NS",
+    "name": "Muthoot Finance Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NATCOPHARM.NS",
+    "name": "NATCO Pharma Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NBCC.NS",
+    "name": "NBCC (India) Ltd.",
+    "sector": "Construction",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NCC.NS",
+    "name": "NCC Ltd.",
+    "sector": "Construction",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NHPC.NS",
+    "name": "NHPC Ltd.",
+    "sector": "Power",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NLCINDIA.NS",
+    "name": "NLC India Ltd.",
+    "sector": "Power",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NMDC.NS",
+    "name": "NMDC Ltd.",
+    "sector": "Metals & Mining",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NSLNISP.NS",
+    "name": "NMDC Steel Ltd.",
+    "sector": "Metals & Mining",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NTPC.NS",
+    "name": "NTPC Ltd.",
+    "sector": "Power",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NH.NS",
+    "name": "Narayana Hrudayalaya Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NATIONALUM.NS",
+    "name": "National Aluminium Co. Ltd.",
+    "sector": "Metals & Mining",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NAVINFLUOR.NS",
+    "name": "Navin Fluorine International Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NESTLEIND.NS",
+    "name": "Nestle India Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NETWORK18.NS",
+    "name": "Network18 Media & Investments Ltd.",
+    "sector": "Media Entertainment & Publication",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NAM-INDIA.NS",
+    "name": "Nippon Life India Asset Management Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NUVAMA.NS",
+    "name": "Nuvama Wealth Management Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NUVOCO.NS",
+    "name": "Nuvoco Vistas Corporation Ltd.",
+    "sector": "Construction Materials",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "OBEROIRLTY.NS",
+    "name": "Oberoi Realty Ltd.",
+    "sector": "Realty",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ONGC.NS",
+    "name": "Oil & Natural Gas Corporation Ltd.",
+    "sector": "Oil Gas & Consumable Fuels",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "OIL.NS",
+    "name": "Oil India Ltd.",
+    "sector": "Oil Gas & Consumable Fuels",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "OLECTRA.NS",
+    "name": "Olectra Greentech Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PAYTM.NS",
+    "name": "One 97 Communications Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "OFSS.NS",
+    "name": "Oracle Financial Services Software Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "POLICYBZR.NS",
+    "name": "PB Fintech Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PCBL.NS",
+    "name": "PCBL Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PIIND.NS",
+    "name": "PI Industries Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PNBHOUSING.NS",
+    "name": "PNB Housing Finance Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PNCINFRA.NS",
+    "name": "PNC Infratech Ltd.",
+    "sector": "Construction",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PVRINOX.NS",
+    "name": "PVR INOX Ltd.",
+    "sector": "Media Entertainment & Publication",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PAGEIND.NS",
+    "name": "Page Industries Ltd.",
+    "sector": "Textiles",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PATANJALI.NS",
+    "name": "Patanjali Foods Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PERSISTENT.NS",
+    "name": "Persistent Systems Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PETRONET.NS",
+    "name": "Petronet LNG Ltd.",
+    "sector": "Oil Gas & Consumable Fuels",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PHOENIXLTD.NS",
+    "name": "Phoenix Mills Ltd.",
+    "sector": "Realty",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PIDILITIND.NS",
+    "name": "Pidilite Industries Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PEL.NS",
+    "name": "Piramal Enterprises Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PPLPHARMA.NS",
+    "name": "Piramal Pharma Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "POLYMED.NS",
+    "name": "Poly Medicure Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "POLYCAB.NS",
+    "name": "Polycab India Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "POONAWALLA.NS",
+    "name": "Poonawalla Fincorp Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PFC.NS",
+    "name": "Power Finance Corporation Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "POWERGRID.NS",
+    "name": "Power Grid Corporation of India Ltd.",
+    "sector": "Power",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PRAJIND.NS",
+    "name": "Praj Industries Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PRESTIGE.NS",
+    "name": "Prestige Estates Projects Ltd.",
+    "sector": "Realty",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PRINCEPIPE.NS",
+    "name": "Prince Pipes and Fittings Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PRSMJOHNSN.NS",
+    "name": "Prism Johnson Ltd.",
+    "sector": "Construction Materials",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PGHH.NS",
+    "name": "Procter & Gamble Hygiene & Health Care Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "PNB.NS",
+    "name": "Punjab National Bank",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "QUESS.NS",
+    "name": "Quess Corp Ltd.",
+    "sector": "Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RRKABEL.NS",
+    "name": "R R Kabel Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RBLBANK.NS",
+    "name": "RBL Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RECLTD.NS",
+    "name": "REC Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RHIM.NS",
+    "name": "RHI MAGNESITA INDIA LTD.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RITES.NS",
+    "name": "RITES Ltd.",
+    "sector": "Construction",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RADICO.NS",
+    "name": "Radico Khaitan Ltd",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RVNL.NS",
+    "name": "Rail Vikas Nigam Ltd.",
+    "sector": "Construction",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RAILTEL.NS",
+    "name": "Railtel Corporation Of India Ltd.",
+    "sector": "Telecommunication",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RAINBOW.NS",
+    "name": "Rainbow Childrens Medicare Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RAJESHEXPO.NS",
+    "name": "Rajesh Exports Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RKFORGE.NS",
+    "name": "Ramkrishna Forgings Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RCF.NS",
+    "name": "Rashtriya Chemicals & Fertilizers Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RATNAMANI.NS",
+    "name": "Ratnamani Metals & Tubes Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RTNINDIA.NS",
+    "name": "RattanIndia Enterprises Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RAYMOND.NS",
+    "name": "Raymond Ltd.",
+    "sector": "Textiles",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "REDINGTON.NS",
+    "name": "Redington Ltd.",
+    "sector": "Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RELIANCE.NS",
+    "name": "Reliance Industries Ltd.",
+    "sector": "Oil Gas & Consumable Fuels",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RBA.NS",
+    "name": "Restaurant Brands Asia Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ROUTE.NS",
+    "name": "Route Mobile Ltd.",
+    "sector": "Telecommunication",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SBFC.NS",
+    "name": "SBFC Finance Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SBICARD.NS",
+    "name": "SBI Cards and Payment Services Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SBILIFE.NS",
+    "name": "SBI Life Insurance Company Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SJVN.NS",
+    "name": "SJVN Ltd.",
+    "sector": "Power",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SKFINDIA.NS",
+    "name": "SKF India Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SRF.NS",
+    "name": "SRF Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SAFARI.NS",
+    "name": "Safari Industries (India) Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SAMMAANCAP.NS",
+    "name": "Sammaan Capital Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MOTHERSON.NS",
+    "name": "Samvardhana Motherson International Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SANOFI.NS",
+    "name": "Sanofi India Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SAPPHIRE.NS",
+    "name": "Sapphire Foods India Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SAREGAMA.NS",
+    "name": "Saregama India Ltd",
+    "sector": "Media Entertainment & Publication",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SCHAEFFLER.NS",
+    "name": "Schaeffler India Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SCHNEIDER.NS",
+    "name": "Schneider Electric Infrastructure Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SHREECEM.NS",
+    "name": "Shree Cement Ltd.",
+    "sector": "Construction Materials",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RENUKA.NS",
+    "name": "Shree Renuka Sugars Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SHRIRAMFIN.NS",
+    "name": "Shriram Finance Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SHYAMMETL.NS",
+    "name": "Shyam Metalics and Energy Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SIEMENS.NS",
+    "name": "Siemens Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SIGNATURE.NS",
+    "name": "Signatureglobal (India) Ltd.",
+    "sector": "Realty",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SOBHA.NS",
+    "name": "Sobha Ltd.",
+    "sector": "Realty",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SOLARINDS.NS",
+    "name": "Solar Industries India Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SONACOMS.NS",
+    "name": "Sona BLW Precision Forgings Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SONATSOFTW.NS",
+    "name": "Sonata Software Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "STARHEALTH.NS",
+    "name": "Star Health and Allied Insurance Company Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SBIN.NS",
+    "name": "State Bank of India",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SAIL.NS",
+    "name": "Steel Authority of India Ltd.",
+    "sector": "Metals & Mining",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SWSOLAR.NS",
+    "name": "Sterling and Wilson Renewable Energy Ltd.",
+    "sector": "Construction",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "STLTECH.NS",
+    "name": "Sterlite Technologies Ltd.",
+    "sector": "Telecommunication",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SUMICHEM.NS",
+    "name": "Sumitomo Chemical India Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SPARC.NS",
+    "name": "Sun Pharma Advanced Research Company Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SUNPHARMA.NS",
+    "name": "Sun Pharmaceutical Industries Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SUNTV.NS",
+    "name": "Sun TV Network Ltd.",
+    "sector": "Media Entertainment & Publication",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SUNDARMFIN.NS",
+    "name": "Sundaram Finance Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SUNDRMFAST.NS",
+    "name": "Sundram Fasteners Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SUNTECK.NS",
+    "name": "Sunteck Realty Ltd.",
+    "sector": "Realty",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SUPREMEIND.NS",
+    "name": "Supreme Industries Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SUVENPHAR.NS",
+    "name": "Suven Pharmaceuticals Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SUZLON.NS",
+    "name": "Suzlon Energy Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SWANENERGY.NS",
+    "name": "Swan Energy Ltd.",
+    "sector": "Diversified",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SYNGENE.NS",
+    "name": "Syngene International Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "SYRMA.NS",
+    "name": "Syrma SGS Technology Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TBOTEK.NS",
+    "name": "TBO Tek Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TVSMOTOR.NS",
+    "name": "TVS Motor Company Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TVSSCS.NS",
+    "name": "TVS Supply Chain Solutions Ltd.",
+    "sector": "Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TMB.NS",
+    "name": "Tamilnad Mercantile Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TANLA.NS",
+    "name": "Tanla Platforms Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TATACHEM.NS",
+    "name": "Tata Chemicals Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TATACOMM.NS",
+    "name": "Tata Communications Ltd.",
+    "sector": "Telecommunication",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TCS.NS",
+    "name": "Tata Consultancy Services Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TATACONSUM.NS",
+    "name": "Tata Consumer Products Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TATAELXSI.NS",
+    "name": "Tata Elxsi Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TATAINVEST.NS",
+    "name": "Tata Investment Corporation Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TATAMOTORS.NS",
+    "name": "Tata Motors Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TATAPOWER.NS",
+    "name": "Tata Power Co. Ltd.",
+    "sector": "Power",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TATASTEEL.NS",
+    "name": "Tata Steel Ltd.",
+    "sector": "Metals & Mining",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TATATECH.NS",
+    "name": "Tata Technologies Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TTML.NS",
+    "name": "Tata Teleservices (Maharashtra) Ltd.",
+    "sector": "Telecommunication",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TECHM.NS",
+    "name": "Tech Mahindra Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TEJASNET.NS",
+    "name": "Tejas Networks Ltd.",
+    "sector": "Telecommunication",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "NIACL.NS",
+    "name": "The New India Assurance Company Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "RAMCOCEM.NS",
+    "name": "The Ramco Cements Ltd.",
+    "sector": "Construction Materials",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "THERMAX.NS",
+    "name": "Thermax Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TIMKEN.NS",
+    "name": "Timken India Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TITAGARH.NS",
+    "name": "Titagarh Rail Systems Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TITAN.NS",
+    "name": "Titan Company Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TORNTPHARM.NS",
+    "name": "Torrent Pharmaceuticals Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TORNTPOWER.NS",
+    "name": "Torrent Power Ltd.",
+    "sector": "Power",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TRENT.NS",
+    "name": "Trent Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TRIDENT.NS",
+    "name": "Trident Ltd.",
+    "sector": "Textiles",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TRIVENI.NS",
+    "name": "Triveni Engineering & Industries Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TRITURBINE.NS",
+    "name": "Triveni Turbine Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "TIINDIA.NS",
+    "name": "Tube Investments of India Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "UCOBANK.NS",
+    "name": "UCO Bank",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "UNOMINDA.NS",
+    "name": "UNO Minda Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "UPL.NS",
+    "name": "UPL Ltd.",
+    "sector": "Chemicals",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "UTIAMC.NS",
+    "name": "UTI Asset Management Company Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "UJJIVANSFB.NS",
+    "name": "Ujjivan Small Finance Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ULTRACEMCO.NS",
+    "name": "UltraTech Cement Ltd.",
+    "sector": "Construction Materials",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "UNIONBANK.NS",
+    "name": "Union Bank of India",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "UBL.NS",
+    "name": "United Breweries Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "UNITDSPR.NS",
+    "name": "United Spirits Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "USHAMART.NS",
+    "name": "Usha Martin Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "VGUARD.NS",
+    "name": "V-Guard Industries Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "VIPIND.NS",
+    "name": "V.I.P. Industries Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "VAIBHAVGBL.NS",
+    "name": "Vaibhav Global Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "VTL.NS",
+    "name": "Vardhman Textiles Ltd.",
+    "sector": "Textiles",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "VARROC.NS",
+    "name": "Varroc Engineering Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "VBL.NS",
+    "name": "Varun Beverages Ltd.",
+    "sector": "Fast Moving Consumer Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "MANYAVAR.NS",
+    "name": "Vedant Fashions Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "VEDL.NS",
+    "name": "Vedanta Ltd.",
+    "sector": "Metals & Mining",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "VIJAYA.NS",
+    "name": "Vijaya Diagnostic Centre Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "IDEA.NS",
+    "name": "Vodafone Idea Ltd.",
+    "sector": "Telecommunication",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "VOLTAS.NS",
+    "name": "Voltas Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "WELCORP.NS",
+    "name": "Welspun Corp Ltd.",
+    "sector": "Capital Goods",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "WELSPUNLIV.NS",
+    "name": "Welspun Living Ltd.",
+    "sector": "Textiles",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "WESTLIFE.NS",
+    "name": "Westlife Foodworld Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "WHIRLPOOL.NS",
+    "name": "Whirlpool of India Ltd.",
+    "sector": "Consumer Durables",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "WIPRO.NS",
+    "name": "Wipro Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "YESBANK.NS",
+    "name": "Yes Bank Ltd.",
+    "sector": "Financial Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ZFCVINDIA.NS",
+    "name": "ZF Commercial Vehicle Control Systems India Ltd.",
+    "sector": "Automobile and Auto Components",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ZEEL.NS",
+    "name": "Zee Entertainment Enterprises Ltd.",
+    "sector": "Media Entertainment & Publication",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ZENSARTECH.NS",
+    "name": "Zensar Technologies Ltd.",
+    "sector": "Information Technology",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ETERNAL.NS",
+    "name": "Eternal Ltd.",
+    "sector": "Consumer Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ZYDUSLIFE.NS",
+    "name": "Zydus Lifesciences Ltd.",
+    "sector": "Healthcare",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  },
+  {
+    "ticker": "ECLERX.NS",
+    "name": "eClerx Services Ltd.",
+    "sector": "Services",
+    "currency": "INR",
+    "asset_class": "equity",
+    "market": "IN"
+  }
+]
